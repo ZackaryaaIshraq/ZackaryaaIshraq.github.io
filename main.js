@@ -36,29 +36,56 @@
   /* ---------- Which section is in the middle of the screen ---------- */
   // Drives the avatar's pose and the highlighted nav link.
   const navLinks = $$('.links a');
+  const TAB_POSE = { leadership: 'hand', experience: 'desk', awards: 'lift' };
+  let curSec = 'top', curTab = 'leadership';
   const setPose = name => {
     if (window.__pose === name) return;
     window.__pose = name;
     dispatchEvent(new CustomEvent('pose', { detail: name }));
   };
   window.__pose = 'wave';
+  // inside Background the highlighted link follows the open tab
+  const syncNav = () => navLinks.forEach(a => {
+    const key = a.dataset.tab ? 'tab:' + a.dataset.tab : a.getAttribute('href').slice(1);
+    a.classList.toggle('on', key === (curSec === 'background' ? 'tab:' + curTab : curSec));
+  });
+  // each section has a default pose; the open work row and the open tab override it
+  const poseFor = el => {
+    if (el.id === 'background') return TAB_POSE[curTab];
+    if (el.id === 'work') { const open = $('.wk.open'); return open ? open.dataset.wpose : el.dataset.pose; }
+    return el.dataset.pose;
+  };
   const midIO = new IntersectionObserver(entries => {
     for (const e of entries) {
       if (!e.isIntersecting) continue;
-      if (e.target.dataset.pose) setPose(e.target.dataset.pose);
+      setPose(poseFor(e.target));
       const sec = e.target.closest('section[id]');
-      if (sec) navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + sec.id));
+      if (sec) { curSec = sec.id; syncNav(); }
     }
   }, { rootMargin: '-50% 0px -50% 0px' });
   $$('[data-pose]').forEach(el => midIO.observe(el));
 
-  /* ---------- Contact: three cards over a blurred page ---------- */
-  const btn = $('#contactBtn'), pop = $('#contactPop');
+  /* ---------- Contact: three cards over a blurred page; a role button puts a matching card on top ---------- */
+  const MAIL = 'zackaryaa.ishraq@gmail.com';
+  const INTENTS = {
+    founder: { who: 'Founder', ask: 'Building something?', note: 'Founders and future co-founders: I’m always up for a conversation about a good problem.', cta: 'Email me about an idea', subject: 'Startup idea' },
+    student: { who: 'Student', ask: 'Hiring an intern?', note: 'I’m looking for internships in quantitative, data and software roles.', cta: 'Email me about a role', subject: 'Internship opportunity' },
+    freelancer: { who: 'Freelancer', ask: 'Need a website?', note: 'Fast, clean sites for businesses and organisations. Built, launched and handed over.', cta: 'Email me about a project', subject: 'Website project' },
+  };
+  const btn = $('#contactBtn'), pop = $('#contactPop'), intentEl = $('#reachIntent');
   const behind = [$('#bar'), $('main'), $('.foot'), $('#dock'), $('.resume')];
   let opener = null;
-  const setOpen = open => {
+  const setIntent = key => {
+    const it = INTENTS[key], href = 'mailto:' + MAIL + (it ? '?subject=' + encodeURIComponent(it.subject) : '');
+    intentEl.hidden = !it;
+    $('#reachMail').href = href;
+    if (!it) return;
+    $('#intentWho').textContent = it.who; $('#intentAsk').textContent = it.ask; $('#intentNote').textContent = it.note;
+    $('#intentCtaText').textContent = it.cta; $('#intentCta').href = href;
+  };
+  const setOpen = (open, intent) => {
     if (open === pop.hasAttribute('data-open')) return;
-    if (open) opener = document.activeElement;
+    if (open) { opener = document.activeElement; setIntent(intent); }
     btn.setAttribute('aria-expanded', open);
     pop.toggleAttribute('data-open', open);
     behind.forEach(el => { if (el) el.inert = open; });           // keeps the keyboard inside the cards while they are open
@@ -66,12 +93,13 @@
     else if (opener && opener.focus) opener.focus({ preventScroll: true });
   };
   btn.addEventListener('click', () => setOpen(true));
+  $$('[data-open-contact]').forEach(b => b.addEventListener('click', () => setOpen(true)));
+  $$('[data-intent]').forEach(b => b.addEventListener('click', () => setOpen(true, b.dataset.intent)));
   $$('[data-close]', pop).forEach(el => el.addEventListener('click', () => setOpen(false)));
-  $$('a.reach-card', pop).forEach(a => a.addEventListener('click', () => setOpen(false)));
+  $$('a.reach-card, #intentCta', pop).forEach(a => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
   ['wheel', 'touchmove'].forEach(type => pop.addEventListener(type, e => e.preventDefault(), { passive: false }));   // the page behind does not scroll
 
-  $$('[data-open-contact]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); setOpen(true); }));
   const copyBtn = $('#copyBtn'), copyLabel = $('span', copyBtn);
   let copyTimer;
   const swapLabel = (text, done) => {
@@ -85,6 +113,78 @@
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => swapLabel('Copy', false), 1800);
   });
+
+  /* ---------- Work: rows that open for the details, one at a time ---------- */
+  const wkRows = $$('.wk');
+  // keep the clicked header where it is while the row above it closes
+  const holdTop = (el, ms = 560) => {
+    const y0 = el.getBoundingClientRect().top, t0 = performance.now();
+    const step = () => {
+      const dy = el.getBoundingClientRect().top - y0;
+      if (Math.abs(dy) > 0.5) scrollBy({ top: dy, behavior: 'instant' });
+      if (performance.now() - t0 < ms) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const setRow = (li, open) => {
+    li.classList.toggle('open', open);
+    $('.wk-head', li).setAttribute('aria-expanded', open);
+  };
+  wkRows.forEach(li => $('.wk-head', li).addEventListener('click', () => {
+    const open = !li.classList.contains('open');
+    holdTop($('.wk-head', li));
+    wkRows.forEach(o => { if (o !== li) setRow(o, false); });
+    setRow(li, open);
+    if (open) setPose(li.dataset.wpose);
+  }));
+
+  /* ---------- Background: Leadership, Experience and Awards as tabs ---------- */
+  const tabsEl = $('.tabs'), tabBtns = $$('[role="tab"]', tabsEl), tabsBody = $('#tabsBody'), tabPill = $('.seg-pill', tabsEl);
+  let tabTimer = 0, liveTimer = 0, liveRaf = 0;
+  // "3 roles", "3 positions", "5 awards": the number counts up each time the tab changes
+  const LIVE = { leadership: [3, 'roles'], experience: [3, 'positions'], awards: [5, 'awards'] };
+  const setLive = (name, animate) => {
+    const [n, label] = LIVE[name], num = $('#bgCount');
+    cancelAnimationFrame(liveRaf); clearTimeout(liveTimer);
+    $('#bgLabel').textContent = label;
+    if (!animate || reduce) { num.textContent = n; return; }
+    const t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0) / 650); num.textContent = Math.round((1 - Math.pow(1 - k, 3)) * n); if (k < 1) liveRaf = requestAnimationFrame(step); };
+    liveRaf = requestAnimationFrame(step);
+    liveTimer = setTimeout(() => { num.textContent = n; }, 800);        // safety net if the tab is in the background
+  };
+  const placePill = () => { tabPill.style.transform = `translateX(${tabBtns.findIndex(b => b.dataset.tab === curTab) * 100}%)`; };
+  const selectTab = name => {
+    if (name === curTab || !TAB_POSE[name]) return;
+    const from = $('.tab-panel:not([hidden])'), to = $('#tab-' + name), h0 = tabsBody.getBoundingClientRect().height;
+    curTab = name;
+    tabBtns.forEach(b => { const on = b.dataset.tab === name; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+    placePill(); setPose(TAB_POSE[name]); syncNav(); setLive(name, true);
+    from.hidden = true; to.hidden = false;
+    if (reduce) return;
+    // glide the container from the old panel's height to the new one's
+    tabsBody.style.transition = 'none'; tabsBody.style.height = '';
+    const h1 = tabsBody.offsetHeight;
+    tabsBody.classList.add('anim'); tabsBody.style.height = h0 + 'px'; void tabsBody.offsetHeight;
+    tabsBody.style.transition = ''; tabsBody.style.height = h1 + 'px';
+    to.classList.remove('enter'); void to.offsetWidth; to.classList.add('enter');
+    clearTimeout(tabTimer);
+    tabTimer = setTimeout(() => { tabsBody.classList.remove('anim'); tabsBody.style.height = ''; to.classList.remove('enter'); }, 560);
+  };
+  placePill(); setLive(curTab, false);
+  tabBtns.forEach(b => b.addEventListener('click', () => selectTab(b.dataset.tab)));
+  tabsEl.addEventListener('keydown', e => {
+    const i = tabBtns.findIndex(b => b.dataset.tab === curTab);
+    const n = e.key === 'ArrowRight' ? (i + 1) % tabBtns.length : e.key === 'ArrowLeft' ? (i + tabBtns.length - 1) % tabBtns.length : -1;
+    if (n < 0) return;
+    e.preventDefault(); tabBtns[n].focus(); selectTab(tabBtns[n].dataset.tab);
+  });
+  // header links and old #leadership / #experience / #awards addresses open the right tab
+  navLinks.forEach(a => {
+    if (!a.dataset.tab) return;
+    a.addEventListener('click', e => { e.preventDefault(); selectTab(a.dataset.tab); $('#background').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
+  });
+  if (TAB_POSE[location.hash.slice(1)]) { selectTab(location.hash.slice(1)); addEventListener('load', () => $('#background').scrollIntoView({ behavior: 'instant' })); }
 
   /* ---------- Back-to-top dock ---------- */
   $('#dock').addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));

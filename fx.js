@@ -85,8 +85,6 @@
     setTimeout(() => { label.textContent = 'Copy my email'; }, 1800);
   });
 
-  if (reduce) { $$('[data-scroll-in]').forEach(el => { el.style.opacity = 1; }); }
-
   /* ==========================================================
      Pointer state shared by everything below
      ========================================================== */
@@ -101,8 +99,8 @@
     const glare = document.createElement('span');
     glare.className = 'glare'; glare.innerHTML = '<i></i>'; glare.setAttribute('aria-hidden', 'true');
     el.appendChild(glare);
-    const t = { el, light: glare.firstChild, max: +el.dataset.tilt || 6, scroll: el.hasAttribute('data-scroll-in'), ref: el.closest('.proj') || el,
-      rx: 0, ry: 0, vx: 0, vy: 0, tx: 0, ty: 0, s: 1, ts: 1, vs: 0, e: -1, hot: false, down: false, str: '' };
+    const t = { el, light: glare.firstChild, max: +el.dataset.tilt || 6,
+      rx: 0, ry: 0, vx: 0, vy: 0, tx: 0, ty: 0, s: 1, ts: 1, vs: 0, hot: false, down: false, str: '' };
     const lean = e => {
       const r = el.getBoundingClientRect();
       const nx = clamp((e.clientX - r.left) / r.width) - 0.5, ny = clamp((e.clientY - r.top) / r.height) - 0.5;
@@ -312,7 +310,7 @@
      ========================================================== */
   const heroCopy = $('.hero-copy'), heroStage = $('.hero-stage'), orbit = $('.orbit');
   const tlWrap = $('.tl-wrap'), tlLine = $('.tl-line'), tlFill = $('.tl-line b'), tlItems = $$('.tl li');
-  let tlHead = null, tlP = 0;
+  let tlHead = null, tlP = 0, tlT0 = null;
   if (tlLine) { tlHead = document.createElement('i'); tlHead.className = 'tl-head'; tlLine.appendChild(tlHead); }
   let last = performance.now(), lastY = scrollY, sy = scrollY, vel = 0, raf = 0;
   const spring = (o, pos, velKey, target, k, d, dt) => { o[velKey] += ((target - o[pos]) * k - o[velKey] * d) * dt; o[pos] += o[velKey] * dt; };
@@ -343,8 +341,11 @@
     head.on = false;
     if (tlWrap) {
       const r = tlWrap.getBoundingClientRect();
-      if (r.top < vh && r.bottom > 0) {
-        const lr = tlLine.getBoundingClientRect(), p = clamp((vh * 0.62 - r.top) / r.height);
+      if (r.height === 0) tlT0 = null;                            // the Experience tab is not showing
+      else if (r.top < vh && r.bottom > 0) {
+        if (tlT0 === null) tlT0 = now;                            // it just opened: the line grows by itself first, then follows the scroll
+        const grow = outCubic(clamp((now - tlT0) / 1500));
+        const lr = tlLine.getBoundingClientRect(), p = Math.min(clamp((vh * 0.62 - r.top) / r.height), grow);
         tlFill.style.transform = `scaleY(${p.toFixed(4)})`;
         tlHead.style.transform = `translateY(${(p * lr.height).toFixed(1)}px)`;
         tlHead.style.opacity = p > 0.002 && p < 0.998 ? 1 : 0;
@@ -355,18 +356,11 @@
       }
     }
 
-    // tilt cards (and the project panels swinging up into place)
+    // tilt cards: lean toward the pointer or finger, then settle
     for (const t of tilts) {
-      let e = 1;
-      if (t.scroll) {
-        const r = t.ref.getBoundingClientRect();
-        if ((r.top > vh + 300 || r.bottom < -300) && !t.hot) continue;
-        e = outCubic(clamp((vh - r.top) / (vh * 0.62)));
-        if (e !== t.e) { t.e = e; t.el.style.opacity = (0.1 + 0.9 * e).toFixed(3); }
-      }
       spring(t, 'rx', 'vx', t.tx, 190, 21, dt); spring(t, 'ry', 'vy', t.ty, 190, 21, dt); spring(t, 's', 'vs', t.ts, 260, 24, dt);
-      const rest = !t.hot && e === 1 && Math.abs(t.rx) < 0.01 && Math.abs(t.ry) < 0.01 && Math.abs(t.s - 1) < 0.0005;
-      const str = rest ? '' : `perspective(1100px) translateY(${((1 - e) * 90).toFixed(1)}px) rotateX(${(t.rx + (1 - e) * 24).toFixed(2)}deg) rotateY(${(t.ry + (1 - e) * -6).toFixed(2)}deg) scale(${(t.s * (0.86 + 0.14 * e)).toFixed(4)})`;
+      const rest = !t.hot && Math.abs(t.rx) < 0.01 && Math.abs(t.ry) < 0.01 && Math.abs(t.s - 1) < 0.0005;
+      const str = rest ? '' : `perspective(1100px) rotateX(${t.rx.toFixed(2)}deg) rotateY(${t.ry.toFixed(2)}deg) scale(${t.s.toFixed(4)})`;
       if (str !== t.str) { t.el.style.transform = str; t.str = str; }
     }
 

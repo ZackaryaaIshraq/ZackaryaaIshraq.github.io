@@ -26,7 +26,7 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events
 .btn { transition: scale 160ms var(--ease-out), translate 250ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 250ms ease; }
 .btn-ink { background: linear-gradient(180deg, #30323B, #0C0D10); box-shadow: var(--shadow-ink); }
 .btn-cobalt { background: linear-gradient(180deg, #4D66FF, #1E3AF0 62%, #1931D2); box-shadow: var(--shadow-cobalt); }
-.btn-line, .go.btn, .resume { background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); }
+.btn-line, .go.btn { background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); }
 .copy { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-sm); }
 .seg { box-shadow: var(--shadow-sm); }
 .seg-pill { background: linear-gradient(180deg, #30323B, #0C0D10); box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 4px 8px -2px rgba(12, 13, 16, .4); }
@@ -37,13 +37,11 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events
 .links a { padding: 6px 14px; border-radius: 999px; transition: color 200ms ease, background-color 200ms ease; }
 .links a::after { display: none; }
 .links a.on { background: var(--ink); color: var(--paper); }
-.pop { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-lg); }
 
 /* ---------- Cards ---------- */
-.lead article, .ways a, .roles li, .qd { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-md); }
+.qd { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-md); }
 .viz { border-color: var(--edge); box-shadow: var(--shadow-lg); }
 [data-tilt].hot { box-shadow: var(--shadow-lg); }
-.ways a.hot { box-shadow: var(--shadow-lg); }
 .sheet { box-shadow: 0 1px 2px rgba(12, 13, 16, .06), 0 10px 18px -8px rgba(12, 13, 16, .18), 0 28px 44px -22px rgba(12, 13, 16, .34); }
 @media not ((hover: hover) and (pointer: fine)) { .glare { display: none; } }   /* the light that follows the pointer is mouse-only */
 
@@ -55,13 +53,13 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events
 .hero { position: relative; }
 .hero::before { content: ""; position: absolute; right: -4%; top: 6%; width: 60%; aspect-ratio: 1; border-radius: 50%; z-index: -1; pointer-events: none;
   background: radial-gradient(closest-side, rgba(30, 58, 240, .13), rgba(30, 58, 240, .045) 55%, transparent); }
-.hello { display: inline-flex; align-items: center; gap: 0; margin-bottom: 26px; padding: 8px 16px 8px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); font-size: 14px; font-weight: 500; letter-spacing: -.01em; color: var(--ink); }
+.hello { display: inline-flex; align-items: center; gap: 0; margin-bottom: 20px; padding: 8px 16px 8px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); font-size: 14px; font-weight: 500; letter-spacing: -.01em; color: var(--ink); }
 .hello::before { content: ""; flex: none; margin-right: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--cobalt); box-shadow: 0 0 0 3px rgba(30, 58, 240, .16); }
 .js .hello { opacity: 0; scale: .92; transition: opacity 500ms ease, scale 700ms var(--ease-out); }
 .js .loaded .hello { opacity: 1; scale: 1; }
 .hello .vc { display: inline-block; white-space: pre; will-change: transform; }
 
-h1 { font-size: clamp(64px, 10.4vw, 164px); line-height: .9; letter-spacing: -.062em; }
+h1 { font-size: clamp(64px, 9.6vw, 150px); line-height: .9; letter-spacing: -.062em; }
 h1 .line { overflow: visible; padding-bottom: 0; margin-bottom: 0; }
 h1 .hc { display: inline-block; white-space: pre; }
 main { overflow-x: clip; }
@@ -70,30 +68,23 @@ main { overflow-x: clip; }
   transition: opacity 800ms ease, translate 1200ms var(--ease-out), rotate 1200ms var(--ease-out), filter 1000ms ease; transition-delay: calc(var(--c) * 55ms + 650ms); }
 .js .loaded h1 .hc { opacity: 1; translate: none; rotate: 0deg; filter: none; }
 
-.roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 620px; margin-top: 34px; perspective: 1200px; }
-.roles li { display: grid; gap: 3px; padding: 14px 16px 16px; border: 1px solid var(--edge); border-radius: 18px; }
-.roles .mono { font-size: 11px; color: var(--cobalt); }
-.roles b { font-size: clamp(17px, 1.55vw, 22px); font-weight: 500; letter-spacing: -.035em; line-height: 1.15; }
-.roles li > span:last-child { font-size: 12.5px; line-height: 1.3; color: var(--ink-2); }
-.lede { margin-top: 24px; }
-.hero-cta { margin-top: 26px; }
+.lede { margin-top: 20px; }
+.hero-cta { margin-top: 22px; }
 .hero-meta { justify-content: space-between; }
 
 /* ---------- Richer entrances ---------- */
 /* text: rises further and sharpens out of a blur */
 .js [data-reveal] { translate: 0 30px; filter: blur(10px); transition: opacity 800ms ease, translate 1100ms var(--ease-out), filter 900ms ease; transition-delay: calc(var(--i, 0) * 80ms); }
 .js [data-reveal].in { translate: none; filter: none; }
-.js .sec-head[data-reveal], .js .proj-copy[data-reveal], .js .viz[data-reveal] { filter: none; }
-.js .proj-copy > * { translate: 0 30px; filter: blur(10px); transition: opacity 750ms ease, translate 1000ms var(--ease-out), filter 850ms ease; }
-.js .proj-copy.in > * { filter: none; }
+.js .sec-head[data-reveal], .js .viz[data-reveal] { filter: none; }
 
 /* cards: swing up from below in 3D */
-.lead, .ways, .exp { perspective: 1400px; }
-.js .lead article[data-reveal], .js .ways a[data-reveal], .js .roles li[data-reveal] {
+.lead { perspective: 1400px; }
+.js .lead article[data-reveal] {
   opacity: 0; translate: 0 64px; rotate: x -28deg; scale: .88; filter: blur(8px); transform-origin: 50% 100%;
   transition: opacity 800ms ease, translate 1200ms var(--ease-out), rotate 1200ms var(--ease-out), scale 1200ms var(--ease-out), filter 900ms ease, background-color 300ms ease, color 300ms ease, border-color 200ms ease, box-shadow 300ms ease;
   transition-delay: calc(var(--i, 0) * 95ms); }
-.js .lead article[data-reveal].in, .js .ways a[data-reveal].in, .js .roles li[data-reveal].in { opacity: 1; translate: none; rotate: none; scale: none; filter: none; }
+.js .lead article[data-reveal].in { opacity: 1; translate: none; rotate: none; scale: none; filter: none; }
 
 /* rows slide in from the side */
 .js .index li[data-reveal] { translate: -48px 0; filter: none; transition: opacity 600ms ease, translate 1000ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
@@ -108,15 +99,13 @@ main { overflow-x: clip; }
 .tl li.on::before { box-shadow: 0 0 0 4px rgba(30, 58, 240, .14), 0 0 14px rgba(30, 58, 240, .6); }
 
 /* ---------- Footer control ---------- */
-.motion-toggle { font-size: 13px; font-weight: 500; color: var(--ink); padding: 6px 12px; margin: -6px 0; border-radius: 999px; border: 1px solid var(--edge); background: var(--surface); box-shadow: var(--shadow-sm); transition: scale 160ms var(--ease-out); }
-.motion-toggle:active { scale: .97; }
 .still .orbit .dash, .still .scroll-hint svg, .still .qd-a::after { animation-play-state: paused; }
 
 /* ---------- Hover (real pointers only) ---------- */
 @media (hover: hover) and (pointer: fine) {
   .btn-ink:hover { background: linear-gradient(180deg, #3C3F4A, #17181D); translate: 0 -1px; }
   .btn-cobalt:hover { background: linear-gradient(180deg, #6077FF, #2B46F6 62%, #1E3AF0); translate: 0 -1px; box-shadow: 0 1px 0 rgba(255, 255, 255, .38) inset, 0 -1px 0 rgba(8, 20, 120, .45) inset, 0 2px 3px rgba(15, 31, 168, .45), 0 12px 24px -6px rgba(30, 58, 240, .6), 0 30px 50px -18px rgba(30, 58, 240, .65); }
-  .btn-line:hover, .go.btn:hover, .resume:hover { background: #fff; translate: 0 -1px; box-shadow: var(--shadow-md); }
+  .btn-line:hover, .go.btn:hover { background: #fff; translate: 0 -1px; box-shadow: var(--shadow-md); }
   .links a:not(.on):hover { background: rgba(12, 13, 16, .06); }
 }
 
@@ -124,22 +113,17 @@ main { overflow-x: clip; }
 @media (max-width: 900px) {
   .dock { width: 84px; height: 84px; right: 4px; }
   .hero::before { right: -20%; top: 0; width: 110%; }
-  .roles { max-width: none; }
 }
 @media (max-width: 640px) {
   .dock { width: 72px; height: 72px; }
   h1 { font-size: clamp(60px, 19vw, 96px); }
-  .roles { gap: 8px; margin-top: 26px; }
-  .roles li { padding: 12px 12px 13px; border-radius: 16px; }
-  .roles b { font-size: 16px; }
-  .roles li > span:last-child { font-size: 11.5px; }
   .tl-line { left: 3.5px; }
   .hero-meta span:first-child { display: inline; }
 }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal], .js .proj-copy > *, .js h1 .hc { translate: none !important; rotate: none !important; scale: none !important; filter: none !important; }
+  .js [data-reveal], .js h1 .hc { translate: none !important; rotate: none !important; scale: none !important; filter: none !important; }
   .js .hello { scale: 1; }
   .tl-head { display: none; }
 }
@@ -150,7 +134,7 @@ main { overflow-x: clip; }
    one-screen phone hero, and the review fixes.
    ========================================================== */
 :root { --ink-3: #6E7078; }                       /* darker so small grey text passes contrast */
-h1, h2, h3, .tagline { text-wrap: balance; }
+h1, h2, h3, .wk-tag { text-wrap: balance; }
 p { text-wrap: pretty; }
 .brand, .scroll-hint, .foot a { display: inline-flex; align-items: center; min-height: 28px; }
 
@@ -167,8 +151,8 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
 .reach-scrim { position: absolute; inset: 0; background: rgba(244, 243, 239, .62); -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); opacity: 0; transition: opacity 220ms ease; }
 .reach-over[data-open] .reach-scrim { opacity: 1; transition: opacity 350ms ease; }
 .reach-stack { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: min(460px, 100% - 32px); display: grid; gap: 12px; }
-.reach-card, .reach-close { opacity: 0; translate: 0 56px; scale: .95; transition: opacity 160ms ease, translate 180ms var(--ease-out), scale 180ms var(--ease-out), box-shadow 250ms ease, background-color 200ms ease; }
-.reach-over[data-open] :is(.reach-card, .reach-close) { opacity: 1; translate: none; scale: 1; transition: opacity 380ms ease, translate 600ms var(--ease-out), scale 600ms var(--ease-out), box-shadow 250ms ease, background-color 200ms ease; transition-delay: calc(var(--k) * 75ms + 60ms), calc(var(--k) * 75ms + 60ms), calc(var(--k) * 75ms + 60ms), 0ms, 0ms; }
+.reach-card, .reach-close, .reach-intent { opacity: 0; translate: 0 56px; scale: .95; transition: opacity 160ms ease, translate 180ms var(--ease-out), scale 180ms var(--ease-out), box-shadow 250ms ease, background-color 200ms ease; }
+.reach-over[data-open] :is(.reach-card, .reach-close, .reach-intent) { opacity: 1; translate: none; scale: 1; transition: opacity 380ms ease, translate 600ms var(--ease-out), scale 600ms var(--ease-out), box-shadow 250ms ease, background-color 200ms ease; transition-delay: calc(var(--k) * 75ms + 60ms), calc(var(--k) * 75ms + 60ms), calc(var(--k) * 75ms + 60ms), 0ms, 0ms; }
 .reach-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 84px; padding: 18px 20px 18px 22px; background: var(--surface); border: 1px solid var(--edge); border-radius: var(--r-outer); box-shadow: var(--shadow-lg); }
 .reach-card > div { display: grid; gap: 2px; min-width: 0; }
 .reach-card .pop-label { font-size: 12px; color: var(--ink-3); }
@@ -181,15 +165,9 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   a.reach-card:hover .ext { translate: 2px -2px; background: var(--ink); color: var(--paper); }
 }
 
-/* ---------- Experience: the timeline takes the full row ---------- */
-.exp { grid-template-columns: minmax(0, 1fr); }
+/* ---------- Experience ---------- */
 .tl-wrap { max-width: 920px; }
 .skills-line { max-width: 920px; margin: clamp(32px, 4vw, 56px) 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
-
-/* ---------- Cards lift a little under the mouse ---------- */
-@media (hover: hover) and (pointer: fine) {
-  .lead article:hover, .roles li:hover { border-color: rgba(12, 13, 16, .14); }
-}
 
 /* ---------- Phone: the whole first screen (avatar, greeting, headline, three roles) fits without scrolling ---------- */
 @media (max-width: 640px) {
@@ -197,10 +175,6 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   .hero-stage { max-width: min(60vw, 28svh, 280px); }
   .hello { margin: 8px 0 12px; padding: 6px 14px 6px 10px; font-size: 13px; }
   h1 { font-size: clamp(44px, min(18.5vw, 10svh), 92px); }
-  .roles { margin-top: clamp(12px, 2.2svh, 24px); gap: 6px; }
-  .roles li { padding: 9px 10px 10px; border-radius: 14px; }
-  .roles b { font-size: 15px; }
-  .roles li > span:last-child { font-size: 11px; line-height: 1.25; }
   .lede { margin-top: 28px; }
   .hero-meta { margin-top: 28px; }
   /* the résumé button waits until you start scrolling, so it never covers the role cards */
@@ -214,6 +188,177 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reach-card, .reach-close { translate: none; scale: 1; }
+  .reach-card, .reach-close, .reach-intent { translate: none; scale: 1; }
   .at-top .resume { translate: none; }
+}
+
+/* ==========================================================
+   Round 7: separate dark-glass role cards, Work rows, tabs, graphite cards, résumé button
+   ========================================================== */
+:root {
+  --shadow-glass: 0 1px 0 rgba(255, 255, 255, .28) inset, 0 2px 4px rgba(12, 13, 30, .25), 0 22px 40px -16px rgba(12, 13, 30, .5), 0 56px 90px -40px rgba(30, 58, 240, .55);
+  --shadow-glass-sm: 0 1px 0 rgba(255, 255, 255, .26) inset, 0 2px 4px rgba(12, 13, 30, .3), 0 10px 22px -8px rgba(12, 13, 30, .5), 0 22px 36px -18px rgba(30, 58, 240, .4);
+  --shadow-slate: 0 1px 0 rgba(255, 255, 255, .16) inset, 0 2px 3px rgba(12, 13, 20, .2), 0 14px 26px -14px rgba(12, 13, 20, .5), 0 34px 54px -34px rgba(12, 13, 20, .4);
+  --shadow-slate-hot: 0 1px 0 rgba(255, 255, 255, .22) inset, 0 4px 8px rgba(12, 13, 20, .22), 0 24px 40px -16px rgba(12, 13, 20, .55), 0 48px 72px -36px rgba(12, 13, 20, .45);
+}
+
+/* ---------- Dark glass, type A: indigo, with a cobalt glow. Role cards, the contact card, tabs, résumé button ---------- */
+.role-card, .reach-intent, .tabs, .resume {
+  background: radial-gradient(120% 160% at 0% 0%, rgba(96, 119, 255, .34), transparent 55%), linear-gradient(150deg, rgba(26, 31, 58, .88), rgba(10, 11, 18, .8));
+  -webkit-backdrop-filter: blur(26px) saturate(1.7); backdrop-filter: blur(26px) saturate(1.7);
+  color: #fff;
+}
+.role-card, .reach-intent { box-shadow: var(--shadow-glass); }
+.role-card::before, .reach-intent::before, .lead article::before { content: ""; position: absolute; inset: 0; z-index: 1; padding: 1px; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .08) 38%, rgba(120, 140, 255, .5));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+
+/* ---------- Hero: three separate role cards ---------- */
+.roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 640px; margin-top: 28px; }
+.role-card { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 26px; min-height: 132px; padding: 14px 14px 16px 16px; border-radius: 24px; text-align: left; }
+.role-card.hot { box-shadow: var(--shadow-glass); }
+.role-card::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .12) 50%, transparent 62%); translate: -110% 0; animation: glass-sheen 8s ease-in-out calc(var(--k) * .7s + 2.4s) infinite; }
+@keyframes glass-sheen { 0% { translate: -110% 0; } 28%, 100% { translate: 110% 0; } }
+.role-card .glare i { background: radial-gradient(closest-side, rgba(255, 255, 255, .18), transparent); }
+.role-card:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; border-radius: 24px; }
+.role-top { display: flex; align-items: center; justify-content: space-between; }
+.role-top .mono { font-size: 11px; color: rgba(255, 255, 255, .55); }
+.role-main { display: grid; gap: 3px; }
+.role-main b { font-size: clamp(20px, 1.9vw, 25px); font-weight: 500; letter-spacing: -.035em; line-height: 1.1; }
+.role-main span { font-size: 13px; line-height: 1.3; color: rgba(255, 255, 255, .66); transition: color 250ms ease; }
+.role-go { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .26); background: rgba(255, 255, 255, .09); transition: translate 300ms var(--ease-out), background-color 250ms ease, color 250ms ease; }
+.js .role-card[data-reveal] { transition: opacity 800ms ease, translate 1100ms var(--ease-out), filter 900ms ease, box-shadow 300ms ease, scale 160ms var(--ease-out); transition-delay: calc(var(--i, 0) * 95ms); }
+.role-card:active { scale: .97; }
+.still .role-card::after { animation-play-state: paused; }
+
+/* ---------- Section titles for Work and Background: large, with a cobalt full stop ---------- */
+.sec-head-xl { padding-top: 26px; margin-bottom: clamp(32px, 5vw, 64px); }
+.sec-head-xl h2 { font-size: clamp(52px, 8.4vw, 132px); line-height: .92; letter-spacing: -.055em; white-space: nowrap; }
+.sec-head-xl h2 em { font-style: normal; color: var(--cobalt); }
+.sec-head-xl .idx { align-self: start; padding-top: 1.1em; }
+
+/* ---------- Work: each project is its own card with a clear Details control ---------- */
+.wk-list { display: grid; gap: 12px; }
+.wk { border: 1px solid var(--edge); border-radius: 26px; background: var(--surface); box-shadow: var(--shadow-sm); }
+.js .wk[data-reveal] { transition: opacity 800ms ease, translate 1100ms var(--ease-out), filter 900ms ease, box-shadow 350ms ease, border-color 350ms ease; transition-delay: calc(var(--i, 0) * 80ms); }
+.wk.open { border-color: rgba(30, 58, 240, .22); box-shadow: var(--shadow-md); }
+.wk-h { font: inherit; letter-spacing: inherit; }
+.wk-head { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto auto; align-items: center; gap: 0 20px; width: 100%; padding: 22px 22px 22px 26px; border-radius: 26px; text-align: left; }
+.wk-head:focus-visible { outline-offset: -3px; }
+.wk-n { align-self: start; padding-top: .9em; font-size: 13px; color: var(--ink-3); }
+.wk-title { display: grid; gap: 6px; min-width: 0; }
+.wk-name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: clamp(26px, 3vw, 40px); font-weight: 500; letter-spacing: -.04em; line-height: 1.04; transition: translate 400ms var(--ease-out); }
+.wk-tag { max-width: 44em; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.4; color: var(--ink-2); }
+.wk-meta { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(12, 13, 16, .05); font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+.wk-more { display: inline-flex; align-items: center; gap: 10px; }
+.wk-more-t { font-size: 13px; font-weight: 500; color: var(--ink-2); transition: color 250ms ease; }
+.wk-more-t::before { content: "Details"; }
+.wk.open .wk-more-t::before { content: "Hide"; }
+.wk-chev { position: relative; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--edge); background: var(--surface); box-shadow: var(--shadow-sm); transition: rotate 500ms var(--ease-out), background-color 250ms ease, border-color 250ms ease, box-shadow 250ms ease; }
+.wk-chev::before { content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -7px 0 0 -4.5px; border: solid var(--ink); border-width: 0 1.75px 1.75px 0; rotate: 45deg; animation: wk-bob 2.2s ease-in-out infinite; transition: border-color 250ms ease; }
+@keyframes wk-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 3px; } }
+.wk.open .wk-chev { rotate: 180deg; background: var(--ink); border-color: var(--ink); }
+.wk.open .wk-chev::before { border-color: var(--paper); animation: none; }
+.still .wk-chev::before { animation-play-state: paused; }
+
+.wk-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 520ms var(--ease-drawer), visibility 0s 520ms; }
+.wk.open .wk-body { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 520ms var(--ease-drawer), visibility 0s; }
+.wk-inner { min-height: 0; overflow: hidden; }
+.wk-content { margin: 0 26px; padding: 26px 0 clamp(28px, 3.4vw, 40px) 64px; border-top: 1px solid var(--line); opacity: 0; translate: 0 16px; filter: blur(6px); transition: opacity 180ms ease, translate 260ms var(--ease-out), filter 180ms ease; }
+.wk.open .wk-content { opacity: 1; translate: none; filter: none; transition: opacity 500ms ease 140ms, translate 700ms var(--ease-out) 140ms, filter 500ms ease 140ms; }
+.wk-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.wk-copy > p { max-width: 36em; color: var(--ink-2); }
+.wk-copy .tags { margin-top: 20px; }
+.wk-copy p a { color: var(--ink); border-bottom: 1px solid var(--line-2); transition: border-color 200ms ease, color 200ms ease; }
+
+/* ---------- Background: dark glass tabs, a live count, and graphite cards ---------- */
+.tabs { position: relative; justify-self: end; display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 999px; box-shadow: var(--shadow-glass-sm); }
+.tabs button { position: relative; z-index: 1; height: 40px; padding: 0 20px; border-radius: 999px; font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, .62); white-space: nowrap; transition: color 250ms ease, scale 160ms var(--ease-out); }
+.tabs button:active { scale: .97; }
+.tabs button[aria-selected="true"] { color: #fff; }
+.tabs button:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+.tabs .seg-pill { top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3); background: linear-gradient(180deg, #6B7FFF, #1E3AF0 75%); box-shadow: 0 1px 0 rgba(255, 255, 255, .45) inset, 0 8px 18px -6px rgba(30, 58, 240, .8); }
+.bg-live { grid-column: 2 / -1; margin-top: 12px; font-size: 15px; color: var(--ink-2); }
+.bg-live b { display: inline-block; min-width: 1.1ch; font-size: 22px; font-weight: 500; letter-spacing: -.03em; color: var(--cobalt); }
+.tabs-body { position: relative; }
+.tabs-body.anim { overflow: hidden; transition: height 480ms var(--ease-drawer); }
+.tab-panel.enter { animation: tab-in 560ms var(--ease-out) both; }
+@keyframes tab-in { from { opacity: 0; transform: translateY(16px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* Dark glass, type B: graphite with a silver glow, flatter and quieter than the role cards */
+.lead article { position: relative; isolation: isolate; overflow: hidden; border: 0; color: #fff;
+  background: radial-gradient(100% 140% at 100% 0%, rgba(176, 190, 225, .18), transparent 58%), linear-gradient(165deg, rgba(44, 50, 64, .86), rgba(19, 21, 28, .8));
+  -webkit-backdrop-filter: blur(20px) saturate(1.3); backdrop-filter: blur(20px) saturate(1.3); box-shadow: var(--shadow-slate); }
+.lead article.hot { box-shadow: var(--shadow-slate-hot); }
+.lead article::before { background: linear-gradient(145deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, .04) 45%, rgba(190, 200, 225, .22)); }
+.lead article .glare i { background: radial-gradient(closest-side, rgba(255, 255, 255, .13), transparent); }
+.lead h3 { color: #fff; }
+.lead p { color: rgba(255, 255, 255, .66); }
+.lead .role { background: rgba(255, 255, 255, .09); color: rgba(255, 255, 255, .88); box-shadow: 0 0 0 1px rgba(255, 255, 255, .15) inset; }
+
+/* ---------- Work with me ---------- */
+.asks { display: flex; flex-wrap: wrap; gap: 10px; }
+.ask-who { margin-right: 10px; font-weight: 400; opacity: .6; }
+
+/* ---------- Contact cards: the role card on top ---------- */
+.reach-intent { position: relative; display: grid; gap: 4px; padding: 20px 22px 22px; border-radius: var(--r-outer); }
+.reach-intent .mono { font-size: 12px; color: rgba(255, 255, 255, .55); }
+.reach-intent b { font-size: 26px; font-weight: 500; letter-spacing: -.035em; line-height: 1.1; }
+.reach-intent p { max-width: 30em; margin-top: 6px; font-size: 14px; color: rgba(255, 255, 255, .7); }
+.reach-intent .btn { position: relative; z-index: 2; justify-self: start; margin-top: 14px; }
+
+/* ---------- Résumé button: dark glass, easy to see ---------- */
+.resume { border: 1px solid rgba(255, 255, 255, .18); box-shadow: var(--shadow-glass-sm); }
+
+/* ---------- Footer: the pause control is a quiet line at the very bottom ---------- */
+.foot-end { flex: 1 0 100%; display: flex; justify-content: center; margin-top: 6px; }
+.motion-toggle { padding: 2px 6px; font-size: 11px; color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(12, 13, 16, .2); transition: color 200ms ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .role-card:hover .role-main span { color: #fff; }
+  .role-card:hover .role-go { translate: 2px -2px; background: #fff; color: var(--ink); }
+  .wk:not(.open):hover { border-color: var(--line-2); box-shadow: var(--shadow-md); }
+  .wk-head:hover .wk-name { translate: 8px 0; }
+  .wk-head:hover .wk-more-t { color: var(--ink); }
+  .wk-head:hover .wk-chev { box-shadow: var(--shadow-md); }
+  .wk-copy p a:hover { color: var(--cobalt); border-color: var(--cobalt); }
+  .tabs button[aria-selected="false"]:hover { color: #fff; }
+  .resume:hover { translate: 0 -2px; border-color: rgba(255, 255, 255, .34); box-shadow: var(--shadow-glass); }
+  .motion-toggle:hover { color: var(--ink); }
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 900px) {
+  .wk-split { grid-template-columns: 1fr; }
+  .wk-split .viz { order: -1; }
+}
+@media (max-width: 820px) {
+  .wk-head { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 0 12px; padding: 18px 16px 18px 18px; }
+  .wk-meta { grid-column: 2; grid-row: 2; justify-self: start; margin-top: 10px; padding: 5px 10px; font-size: 12px; }
+  .wk-more { grid-column: 3; grid-row: 1 / span 2; align-self: start; }
+  .wk-more-t { display: none; }
+  .wk-content { margin: 0 18px; padding-left: 0; }
+}
+@media (max-width: 640px) {
+  .sec-head-xl h2 { font-size: clamp(36px, 11.4vw, 64px); }
+  .sec-head-xl .idx { padding-top: .8em; }
+  .roles { max-width: none; gap: 8px; margin-top: clamp(12px, 2.2svh, 24px); }
+  .role-card { gap: 14px; min-height: 104px; padding: 11px 9px 12px 12px; border-radius: 20px; }
+  .role-main b { font-size: 17px; }
+  .role-main span { font-size: 11.5px; }
+  .role-go { width: 26px; height: 26px; }
+  .role-go svg { width: 10px; height: 10px; }
+  .sec-head .tabs { grid-column: 1 / -1; justify-self: stretch; margin-top: 14px; }
+  .bg-live { grid-column: 2 / -1; }
+  .tabs button { padding: 0 6px; font-size: 13px; }
+  .asks .btn { flex: 1 1 100%; justify-content: center; }
+}
+@media (max-width: 640px) and (max-height: 720px) {
+  .reach-intent p { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .role-card::after { animation: none; }
+  .wk-chev::before { animation: none; }
+  .wk-content, .wk.open .wk-content { translate: none; filter: none; }
+  .tab-panel.enter { animation: none; }
 }
