@@ -66,42 +66,6 @@
     else new MutationObserver((_, mo) => { if (document.body.classList.contains('loaded')) { mo.disconnect(); play(); } }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
-  /* ---------- Proof statement: split into words that light up with the scroll ---------- */
-  const scrub = $('[data-scrub]'), words = [];
-  if (scrub) {
-    const walk = node => [...node.childNodes].forEach(n => {
-      if (n.nodeType !== 3) return walk(n);
-      const frag = document.createDocumentFragment();
-      n.textContent.split(/(\s+)/).forEach(part => {
-        if (!part) return;
-        if (/^\s+$/.test(part)) return frag.append(part);
-        const w = document.createElement('span');
-        w.className = 'w'; w.textContent = part; frag.append(w); words.push(w);
-      });
-      n.replaceWith(frag);
-    });
-    walk(scrub);
-    if (reduce) words.forEach(w => w.classList.add('lit'));
-  }
-  let litCount = 0;
-
-  /* ---------- Numbers count up when they come into view ---------- */
-  $$('.stats dd').forEach(d => { d.dataset.count = d.textContent.trim(); });
-  const countIO = new IntersectionObserver(entries => entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    countIO.unobserve(e.target);
-    if (reduce) return;
-    const el = e.target, to = +el.dataset.count, suffix = el.dataset.suffix || '', t0 = performance.now(), dur = 1300;
-    const step = now => {
-      const k = clamp((now - t0) / dur);
-      el.textContent = Math.round(outCubic(k) * to) + suffix;
-      if (k < 1) requestAnimationFrame(step);
-    };
-    el.textContent = '0' + suffix;
-    requestAnimationFrame(step);
-  }), { threshold: 0.6 });
-  $$('[data-count]').forEach(el => countIO.observe(el));
-
   /* ---------- Stagger: rows get a small delay, and every delay is cleared once the element has appeared ---------- */
   $$('.index li').forEach((li, i) => li.style.setProperty('--i', i % 5));
   const settleIO = new IntersectionObserver(entries => entries.forEach(e => {
@@ -112,26 +76,6 @@
   $$('[data-reveal]').forEach(el => { if (el.style.getPropertyValue('--i')) settleIO.observe(el); });
 
   /* ---------- Small interactions ---------- */
-  // UMT: pick a module, its sheet comes to the front
-  const sheets = $$('.fan .sheet'), modBtns = $$('.mods button');
-  modBtns.forEach(b => b.addEventListener('click', () => {
-    const was = b.classList.contains('on');
-    modBtns.forEach(x => x.classList.remove('on')); sheets.forEach(s => s.classList.remove('front'));
-    if (was) return;
-    b.classList.add('on');
-    const sheet = sheets.find(s => s.style.getPropertyValue('--n').trim() === b.dataset.sheet);
-    if (sheet) sheet.classList.add('front');
-  }));
-
-  // Awards: filter chips spotlight one category
-  const rows = $$('.index li'); let cat = '';
-  rows.forEach(li => { const c = $('.cat', li).textContent.trim(); if (c) cat = c; li.dataset.cat = cat; });
-  const chips = $$('.filters .chip');
-  chips.forEach(c => c.addEventListener('click', () => {
-    chips.forEach(x => x.classList.toggle('on', x === c));
-    rows.forEach(li => li.classList.toggle('dim', c.dataset.filter !== 'all' && li.dataset.cat !== c.dataset.filter));
-  }));
-
   // Big "copy my email" button
   const copyBig = $('#copyBig');
   if (copyBig) copyBig.addEventListener('click', async () => {
@@ -195,7 +139,7 @@
     addEventListener('pointermove', e => {
       if (!cur.seen) { cur.seen = true; cur.x = e.clientX; cur.y = e.clientY; cursor.classList.add('on'); }
       const tag = e.target.closest && e.target.closest('[data-cursor]');
-      const link = e.target.closest && e.target.closest('a, button, .chip');
+      const link = e.target.closest && e.target.closest('a, button');
       cursor.classList.toggle('label', !!tag); cursor.classList.toggle('link', !tag && !!link);
       if (tag) label.textContent = tag.dataset.cursor;
       cur.ts = tag ? 2.3 : link ? 1.55 : 1;
@@ -361,55 +305,7 @@
     ctx.lineWidth = 1;
     if (head.on && head.flash > 0.02) { const s = 60 + head.flash * 70; ctx.globalAlpha = head.flash * 0.45; ctx.drawImage(HALO, head.x - s / 2, head.y - s / 2, s, s); ctx.globalAlpha = 1; head.flash *= Math.exp(-dt * 6); }
   };
-  /* ---------- Toolkit rings: each skill travels round a tilted loop; the one at the front lights up ---------- */
-  const rings = $$('.ring').map((el, idx) => {
-    const cv = $('canvas', el);
-    $$('.ring-item', el).forEach(it => { it.innerHTML = `<i class="ring-blue"></i><span>${it.textContent}</span>`; it._blue = it.firstChild; });
-    const r = { el, cv, c: cv.getContext('2d'), items: $$('.ring-item', el), dir: idx % 2 ? 1 : -1, ang: idx * 1.3, w: 0, h: 0, seen: false, front: null,
-      sparks: Array.from({ length: 14 }, () => ({ a: Math.random() * TAU, sp: 0.7 + Math.random() * 1.3, off: (Math.random() - 0.5) * 0.14, s: 5 + Math.random() * 7 })) };
-    const size = () => {
-      const b = el.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
-      r.w = el.offsetWidth; r.h = el.offsetHeight; cv.width = r.w * d; cv.height = r.h * d; r.c.setTransform(d, 0, 0, d, 0, 0); void b;
-    };
-    new ResizeObserver(size).observe(el); size();
-    new IntersectionObserver(([e]) => { r.seen = e.isIntersecting; }, { rootMargin: '80px' }).observe(el);
-    return r;
-  });
-  const ringFrame = (dt, force) => {
-    for (const r of rings) {
-      if (!r.seen && !force) continue;
-      r.ang += r.dir * 0.4 * dt;                           // odd rings turn one way, even rings the other
-      const cx = r.w / 2, cy = r.h * 0.6, Rx = r.w * 0.38, Ry = r.h * 0.235, n = r.items.length, c = r.c;
-      let best = null, bestZ = -2;
-      r.items.forEach((it, i) => {
-        const a = r.ang + i * TAU / n, z = Math.cos(a), k = (z + 1) / 2;
-        it.style.transform = `translate(-50%, -50%) translate(${(Math.sin(a) * Rx).toFixed(1)}px, ${(z * Ry + r.h * 0.1).toFixed(1)}px) scale(${(0.68 + 0.32 * k).toFixed(3)})`;
-        it.style.opacity = (0.2 + 0.8 * Math.pow(k, 1.5)).toFixed(3);
-        it.style.zIndex = z > 0 ? 3 : 1;
-        const u = clamp((k - 0.62) / 0.38), blue = u * u * (3 - 2 * u);          // 0 at the sides, 1 dead centre, eased both ways
-        it._blue.style.opacity = blue.toFixed(3);
-        it.style.color = `rgb(${Math.round(12 + 243 * blue)}, ${Math.round(13 + 242 * blue)}, ${Math.round(16 + 239 * blue)})`;
-        if (z > bestZ) { bestZ = z; best = it; }
-      });
-      if (best !== r.front) { if (r.front) r.front.classList.remove('front'); if (best) best.classList.add('front'); r.front = best; }
-      // the loop itself, and the cobalt sparks running round it
-      c.clearRect(0, 0, r.w, r.h);
-      c.fillStyle = `rgba(${COBALT},0.04)`; c.beginPath(); c.ellipse(cx, cy, Rx + 10, Ry + 6, 0, 0, TAU); c.ellipse(cx, cy, Math.max(1, Rx - 10), Math.max(1, Ry - 6), 0, 0, TAU); c.fill('evenodd');
-      c.lineWidth = 1; c.strokeStyle = `rgba(${INK},0.1)`;
-      c.beginPath(); c.ellipse(cx, cy, Rx + 10, Ry + 6, 0, 0, TAU); c.stroke();
-      c.beginPath(); c.ellipse(cx, cy, Math.max(1, Rx - 10), Math.max(1, Ry - 6), 0, 0, TAU); c.stroke();
-      c.lineCap = 'round';
-      for (const s of r.sparks) {
-        s.a += r.dir * s.sp * dt;
-        const z = Math.cos(s.a), k = (z + 1) / 2, m = 1 + s.off, x = cx + Math.sin(s.a) * Rx * m, y = cy + z * Ry * m;
-        const a0 = s.a - r.dir * 0.3, x0 = cx + Math.sin(a0) * Rx * m, y0 = cy + Math.cos(a0) * Ry * m;
-        c.strokeStyle = `rgba(${COBALT},${0.1 + 0.4 * k})`; c.lineWidth = 0.8 + k; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x, y); c.stroke();
-        c.globalAlpha = 0.2 + 0.7 * k; c.drawImage(HALO, x - s.s, y - s.s, s.s * 2, s.s * 2); c.globalAlpha = 1;
-      }
-    }
-  };
-
-  if (reduce) { ringFrame(0, true); drawAtmos(0.016, scrollY, 0); return; }
+  if (reduce) { drawAtmos(0.016, scrollY, 0); return; }
 
   /* ==========================================================
      The loop
@@ -418,11 +314,6 @@
   const tlWrap = $('.tl-wrap'), tlLine = $('.tl-line'), tlFill = $('.tl-line b'), tlItems = $$('.tl li');
   let tlHead = null, tlP = 0;
   if (tlLine) { tlHead = document.createElement('i'); tlHead.className = 'tl-head'; tlLine.appendChild(tlHead); }
-  const band = $('#band');
-  if (band) band.innerHTML += band.innerHTML;          // doubled so it can loop without a seam
-  let bandX = 0, bandDir = 1;
-
-  ringFrame(0, true);                                  // place the rings straight away, before the first animation frame
   let last = performance.now(), lastY = scrollY, sy = scrollY, vel = 0, raf = 0;
   const spring = (o, pos, velKey, target, k, d, dt) => { o[velKey] += ((target - o[pos]) * k - o[velKey] * d) * dt; o[pos] += o[velKey] * dt; };
 
@@ -448,15 +339,6 @@
       orbit.style.rotate = `${(y * 0.14).toFixed(2)}deg`;
     }
 
-    // proof words
-    if (words.length) {
-      const r = scrub.getBoundingClientRect();
-      if (r.top < vh && r.bottom > -vh) {
-        const n = Math.round(clamp((vh * 0.84 - r.top) / (r.height + vh * 0.3)) * words.length);
-        if (n !== litCount) { for (let i = Math.min(n, litCount); i < Math.max(n, litCount); i++) words[i].classList.toggle('lit', i < n); litCount = n; }
-      }
-    }
-
     // timeline: the line fills, its tip glows, and points from the field rush into it
     head.on = false;
     if (tlWrap) {
@@ -471,14 +353,6 @@
         if (head.on && grown > 0.3 && !still) feed(Math.min(5, Math.ceil(grown / 5)));
         for (const li of tlItems) li.classList.toggle('on', li.offsetTop + 24 <= p * r.height + 1);
       }
-    }
-
-    // band: always moving, faster and in your direction when you scroll
-    if (band && !still) {
-      if (Math.abs(vel) > 30) bandDir = Math.sign(vel);
-      const half = band.scrollWidth / 2;
-      bandX = (((bandX + (70 + Math.abs(vel) * 0.45) * bandDir * dt) % half) + half) % half;
-      band.style.transform = `translateX(${(-bandX).toFixed(1)}px)`;
     }
 
     // tilt cards (and the project panels swinging up into place)
@@ -509,7 +383,6 @@
       cursor.style.transform = `translate(${cur.x.toFixed(1)}px, ${cur.y.toFixed(1)}px) scale(${cur.s.toFixed(3)})`;
     }
 
-    ringFrame(still ? 0 : dt);
     drawAtmos(still ? 0 : dt, sy, still ? 0 : vel);
     raf = requestAnimationFrame(tick);
   };

@@ -36,18 +36,6 @@ main, .foot { position: relative; z-index: 1; }
 /* ---------- Hero ---------- */
 .hero-copy, .hero-stage { will-change: transform; }
 
-/* ---------- Proof: words light up as you scroll ---------- */
-.js .proof p[data-scrub] { color: inherit; }
-.js .proof .w { color: rgba(12, 13, 16, .15); transition: color 450ms ease; }
-.js .proof .w.lit { color: var(--ink-3); }
-.js .proof b .w.lit { color: var(--ink); }
-.proof { padding-bottom: clamp(56px, 8vw, 112px); }
-.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: clamp(40px, 6vw, 88px); }
-.tile { display: flex; flex-direction: column; min-height: 208px; padding: 22px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-outer); box-shadow: 0 1px 0 #fff inset, 0 24px 48px -36px rgba(12, 13, 16, .25); }
-.tile-n { font-size: clamp(44px, 4.6vw, 68px); font-weight: 500; letter-spacing: -.06em; line-height: 1; color: var(--cobalt); }
-.tile h2 { margin-top: auto; padding-top: 24px; font-size: 18px; font-weight: 500; letter-spacing: -.025em; }
-.tile p { margin-top: 4px; font-size: 14px; color: var(--ink-2); }
-
 /* ---------- Section heads: the rule draws, the title rises letter by letter ---------- */
 .js .sec-head[data-reveal] { opacity: 1; translate: none; position: relative; border-top-color: transparent; }
 .js .sec-head::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 1200ms var(--ease-in-out); }
@@ -67,25 +55,8 @@ main, .foot { position: relative; z-index: 1; }
 .js .proj-copy > :nth-child(4) { transition-delay: 180ms; }
 .js .proj-copy > :nth-child(5) { transition-delay: 240ms; }
 .js .proj-copy > :nth-child(6) { transition-delay: 300ms; }
-.js .proj-copy > :nth-child(7) { transition-delay: 360ms; }
-.js .proj-copy > :nth-child(8) { transition-delay: 420ms; }
 .js .viz[data-reveal] { opacity: 1; translate: none; transition: none; }
 .proj { perspective: 1400px; }
-
-.feat { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
-.feat li { display: grid; gap: 2px; padding: 12px 14px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-inner); transition: translate 300ms var(--ease-out), border-color 200ms ease, box-shadow 300ms ease; }
-.feat b { font-size: 14px; font-weight: 500; letter-spacing: -.01em; }
-.feat span { font-size: 12px; line-height: 1.35; color: var(--ink-2); }
-
-.mods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
-.mods button { position: relative; overflow: hidden; display: grid; gap: 2px; padding: 12px; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-inner); transition: scale 160ms var(--ease-out), background-color 220ms ease, border-color 220ms ease, color 220ms ease; }
-.mods button:active { scale: .97; }
-.mods b { font-size: 14px; font-weight: 600; color: var(--cobalt); transition: color 220ms ease; }
-.mods span { font-size: 12px; color: var(--ink-2); transition: color 220ms ease; }
-.mods button.on { background: var(--cobalt); border-color: var(--cobalt); }
-.mods button.on b, .mods button.on span { color: #fff; }
-.sheet { z-index: 0; }
-.viz-sheets .fan .sheet.front { transform: rotate(0deg) translateY(-7%) scale(1.14); z-index: 5; transition-delay: 0ms; transition-duration: 550ms; }
 
 /* four-way rule switch on the simulation */
 .seg { grid-template-columns: repeat(4, 1fr); }
@@ -113,21 +84,8 @@ main, .foot { position: relative; z-index: 1; }
 .js .tl li > div, .js .tl li > .when { opacity: .4; transition: opacity 450ms ease; }
 .js .tl li.on > div, .js .tl li.on > .when { opacity: 1; }
 
-/* ---------- Awards filter ---------- */
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-.chip { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 14px; font-weight: 500; transition: scale 160ms var(--ease-out), background-color 220ms ease, color 220ms ease, border-color 220ms ease; }
-.chip span { font-size: 12px; color: var(--ink-3); transition: color 220ms ease; }
-.chip:active { scale: .97; }
-.chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.chip.on span { color: rgba(244, 243, 239, .6); }
+/* ---------- Awards rows ---------- */
 .js .index li, .js .index li.in { transition: opacity 450ms ease, translate 900ms var(--ease-out); }
-.js .index li.in.dim { opacity: .2; }
-
-/* ---------- Big band that speeds up with your scroll ---------- */
-.band { position: relative; z-index: 1; overflow: hidden; padding-block: clamp(20px, 3vw, 44px); margin-bottom: clamp(56px, 8vw, 112px); border-block: 1px solid var(--line); background: var(--paper); }
-.band-track { display: flex; align-items: center; gap: .42em; width: max-content; padding-right: .42em; font-size: clamp(56px, 11vw, 168px); font-weight: 500; letter-spacing: -.055em; line-height: 1.05; white-space: nowrap; will-change: transform; }
-.band .o { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
-.band i { flex: none; width: .16em; height: .16em; border-radius: 50%; background: var(--cobalt); }
 
 .reach { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 
@@ -145,19 +103,10 @@ main, .foot { position: relative; z-index: 1; }
   .btn-cobalt:hover { background: #2b47ff; }
   .btn-cobalt:hover::after { transform: translateX(120%); transition: transform 750ms var(--ease-out); }
   .btn-line:hover { border-color: var(--ink); background: #fff; }
-  .feat li:hover { translate: 0 -3px; border-color: var(--line-2); box-shadow: 0 14px 24px -18px rgba(12, 13, 16, .35); }
-  .mods button:hover { border-color: var(--cobalt); }
-  .chip:hover { border-color: var(--ink); }
 }
 
 /* ---------- Phone ---------- */
-@media (max-width: 900px) {
-  .tiles { grid-template-columns: 1fr 1fr; }
-  .tile { min-height: 168px; padding: 18px; }
-}
 @media (max-width: 640px) {
-  .mods { grid-template-columns: 1fr 1fr; }
-  .feat b { font-size: 13px; }
   .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
   .reach .btn { flex: 1 1 40%; justify-content: center; }
   .tl-line { left: 4px; }
@@ -172,6 +121,4 @@ main, .foot { position: relative; z-index: 1; }
   .js .sec-head::before { transform: scaleX(1); transition: none; }
   .ripple, .cursor { display: none; }
   .btn-cobalt:hover::after { transition: none; transform: translateX(-120%); }
-  .feat li:hover { translate: none; }
-  .viz-sheets .fan .sheet.front { transition-duration: 0ms; }
 }

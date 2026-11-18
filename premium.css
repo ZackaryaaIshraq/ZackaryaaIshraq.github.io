@@ -27,8 +27,6 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events
 .btn-ink { background: linear-gradient(180deg, #30323B, #0C0D10); box-shadow: var(--shadow-ink); }
 .btn-cobalt { background: linear-gradient(180deg, #4D66FF, #1E3AF0 62%, #1931D2); box-shadow: var(--shadow-cobalt); }
 .btn-line, .go.btn, .resume { background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); }
-.chip { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-sm); transition: scale 160ms var(--ease-out), background-color 220ms ease, color 220ms ease, border-color 220ms ease, box-shadow 250ms ease; }
-.chip.on { background: linear-gradient(180deg, #30323B, #0C0D10); border-color: var(--ink); box-shadow: var(--shadow-ink); }
 .copy { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-sm); }
 .seg { box-shadow: var(--shadow-sm); }
 .seg-pill { background: linear-gradient(180deg, #30323B, #0C0D10); box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 4px 8px -2px rgba(12, 13, 16, .4); }
@@ -42,12 +40,10 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 2; pointer-events
 .pop { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-lg); }
 
 /* ---------- Cards ---------- */
-.tile, .lead article, .ways a, .kit, .roles li, .qd { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-md); }
-.feat li, .mods button { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-sm); }
+.lead article, .ways a, .roles li, .qd { background: var(--surface); border-color: var(--edge); box-shadow: var(--shadow-md); }
 .viz { border-color: var(--edge); box-shadow: var(--shadow-lg); }
 [data-tilt].hot { box-shadow: var(--shadow-lg); }
 .ways a.hot { box-shadow: var(--shadow-lg); }
-.mods button.on { background: linear-gradient(180deg, #4D66FF, #1E3AF0 62%, #1931D2); border-color: var(--cobalt); box-shadow: var(--shadow-cobalt); }
 .sheet { box-shadow: 0 1px 2px rgba(12, 13, 16, .06), 0 10px 18px -8px rgba(12, 13, 16, .18), 0 28px 44px -22px rgba(12, 13, 16, .34); }
 @media not ((hover: hover) and (pointer: fine)) { .glare { display: none; } }   /* the light that follows the pointer is mouse-only */
 
@@ -92,23 +88,12 @@ main { overflow-x: clip; }
 .js .proj-copy.in > * { filter: none; }
 
 /* cards: swing up from below in 3D */
-.tiles, .lead, .ways, .exp { perspective: 1400px; }
-.js .tile[data-reveal], .js .lead article[data-reveal], .js .ways a[data-reveal], .js .roles li[data-reveal], .js .kit[data-reveal] {
+.lead, .ways, .exp { perspective: 1400px; }
+.js .lead article[data-reveal], .js .ways a[data-reveal], .js .roles li[data-reveal] {
   opacity: 0; translate: 0 64px; rotate: x -28deg; scale: .88; filter: blur(8px); transform-origin: 50% 100%;
   transition: opacity 800ms ease, translate 1200ms var(--ease-out), rotate 1200ms var(--ease-out), scale 1200ms var(--ease-out), filter 900ms ease, background-color 300ms ease, color 300ms ease, border-color 200ms ease, box-shadow 300ms ease;
   transition-delay: calc(var(--i, 0) * 95ms); }
-.js .tile[data-reveal].in, .js .lead article[data-reveal].in, .js .ways a[data-reveal].in, .js .roles li[data-reveal].in, .js .kit[data-reveal].in { opacity: 1; translate: none; rotate: none; scale: none; filter: none; }
-
-/* small cards inside a project pop in one after another */
-.js .proj-copy:not(.in) .feat li, .js .proj-copy:not(.in) .mods button { opacity: 0; }
-.js .proj-copy.in .feat li, .js .proj-copy.in .mods button { animation: card-pop 800ms var(--ease-out) both; }
-@keyframes card-pop { from { opacity: 0; transform: translateY(22px) scale(.84); } to { opacity: 1; transform: none; } }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(1) { animation-delay: 320ms; }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(2) { animation-delay: 390ms; }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(3) { animation-delay: 460ms; }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(4) { animation-delay: 530ms; }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(5) { animation-delay: 600ms; }
-.js .proj-copy.in :is(.feat li, .mods button):nth-child(6) { animation-delay: 670ms; }
+.js .lead article[data-reveal].in, .js .ways a[data-reveal].in, .js .roles li[data-reveal].in { opacity: 1; translate: none; rotate: none; scale: none; filter: none; }
 
 /* rows slide in from the side */
 .js .index li[data-reveal] { translate: -48px 0; filter: none; transition: opacity 600ms ease, translate 1000ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
@@ -132,10 +117,7 @@ main { overflow-x: clip; }
   .btn-ink:hover { background: linear-gradient(180deg, #3C3F4A, #17181D); translate: 0 -1px; }
   .btn-cobalt:hover { background: linear-gradient(180deg, #6077FF, #2B46F6 62%, #1E3AF0); translate: 0 -1px; box-shadow: 0 1px 0 rgba(255, 255, 255, .38) inset, 0 -1px 0 rgba(8, 20, 120, .45) inset, 0 2px 3px rgba(15, 31, 168, .45), 0 12px 24px -6px rgba(30, 58, 240, .6), 0 30px 50px -18px rgba(30, 58, 240, .65); }
   .btn-line:hover, .go.btn:hover, .resume:hover { background: #fff; translate: 0 -1px; box-shadow: var(--shadow-md); }
-  .chip:not(.on):hover { box-shadow: var(--shadow-md); }
   .links a:not(.on):hover { background: rgba(12, 13, 16, .06); }
-  .feat li:hover { box-shadow: var(--shadow-md); }
-  .mods button:not(.on):hover { box-shadow: var(--shadow-md); }
 }
 
 /* ---------- Tablet and phone ---------- */
@@ -158,18 +140,16 @@ main { overflow-x: clip; }
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal], .js .proj-copy > *, .js h1 .hc { translate: none !important; rotate: none !important; scale: none !important; filter: none !important; }
-  .js .proj-copy.in .feat li, .js .proj-copy.in .mods button { animation: none; }
   .js .hello { scale: 1; }
   .tl-head { display: none; }
 }
 
 
 /* ==========================================================
-   Round 4: hexagon backdrop, contact cards, toolkit rings,
+   Round 4: hexagon backdrop, contact cards,
    one-screen phone hero, and the review fixes.
    ========================================================== */
 :root { --ink-3: #6E7078; }                       /* darker so small grey text passes contrast */
-.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 h1, h2, h3, .tagline { text-wrap: balance; }
 p { text-wrap: pretty; }
 .brand, .scroll-hint, .foot a { display: inline-flex; align-items: center; min-height: 28px; }
@@ -201,29 +181,14 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   a.reach-card:hover .ext { translate: 2px -2px; background: var(--ink); color: var(--paper); }
 }
 
-/* ---------- Experience: the timeline takes the row, the toolkit becomes four turning rings ---------- */
+/* ---------- Experience: the timeline takes the full row ---------- */
 .exp { grid-template-columns: minmax(0, 1fr); }
 .tl-wrap { max-width: 920px; }
-.sub-head { margin: clamp(48px, 7vw, 88px) 0 4px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; font-weight: 500; color: var(--ink-2); }
-.rings { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-.ring { position: relative; aspect-ratio: 1 / .8; }
-.ring canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ring ul { position: absolute; inset: 0; }
-.ring-label { position: absolute; left: 0; right: 0; top: 6%; display: grid; gap: 1px; text-align: center; pointer-events: none; }
-.ring-label b { font-size: clamp(17px, 1.5vw, 21px); font-weight: 500; letter-spacing: -.03em; }
-.ring-label span { font-size: 12px; color: var(--ink-3); }
-.ring-item { position: absolute; left: 50%; top: 50%; padding: 7px 13px; border-radius: 999px; font-size: 13px; font-weight: 500; white-space: nowrap; background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--shadow-sm); will-change: transform; }
-.ring-blue { position: absolute; inset: -1px; border-radius: inherit; opacity: 0; background: linear-gradient(180deg, #4D66FF, #1E3AF0 62%, #1931D2); box-shadow: var(--shadow-cobalt); }
-.ring-item span { position: relative; }
+.skills-line { max-width: 920px; margin: clamp(32px, 4vw, 56px) 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
 
 /* ---------- Cards lift a little under the mouse ---------- */
 @media (hover: hover) and (pointer: fine) {
-  .tile:hover, .lead article:hover, .roles li:hover { border-color: rgba(12, 13, 16, .14); }
-}
-
-/* ---------- Tablet ---------- */
-@media (max-width: 900px) {
-  .rings { grid-template-columns: 1fr 1fr; row-gap: 20px; }
+  .lead article:hover, .roles li:hover { border-color: rgba(12, 13, 16, .14); }
 }
 
 /* ---------- Phone: the whole first screen (avatar, greeting, headline, three roles) fits without scrolling ---------- */
@@ -241,25 +206,14 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   /* the résumé button waits until you start scrolling, so it never covers the role cards */
   .resume { transition: opacity 250ms ease, translate 350ms var(--ease-out), scale 160ms var(--ease-out); }
   .at-top .resume { opacity: 0; translate: 0 14px; pointer-events: none; }
-  .btn, .chip { min-height: 44px; }
+  .btn { min-height: 44px; }
   .seg button { height: 38px; }
   .reach-stack { top: auto; bottom: max(20px, env(safe-area-inset-bottom)); translate: -50% 0; }
   .reach-card { min-height: 76px; padding: 14px 16px 14px 18px; }
   .reach-card .pop-value { font-size: 16px; }
-  .ring-item { font-size: 11px; padding: 5px 9px; }
-  .ring-label b { font-size: 16px; }
-  .ring-label span { font-size: 11px; }
-  .rings { gap: 4px; row-gap: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reach-card, .reach-close { translate: none; scale: 1; }
   .at-top .resume { translate: none; }
-}
-
-/* phone: give the ring titles their own space */
-@media (max-width: 640px) {
-  .ring { aspect-ratio: 1 / .92; }
-  .ring-label { top: 0; }
-  .ring-label span { display: none; }
 }
