@@ -30,7 +30,7 @@
   /* ---------- Scroll reveals ---------- */
   const revealIO = new IntersectionObserver(entries => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); revealIO.unobserve(e.target); }
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  }, { rootMargin: '0px 0px -2% 0px', threshold: 0.05 });
   $$('[data-reveal]').forEach(el => revealIO.observe(el));
 
   /* ---------- Which section is in the middle of the screen ---------- */
@@ -142,7 +142,7 @@
   const tabsEl = $('.tabs'), tabBtns = $$('[role="tab"]', tabsEl), tabsBody = $('#tabsBody'), tabPill = $('.seg-pill', tabsEl);
   let tabTimer = 0, liveTimer = 0, liveRaf = 0;
   // "3 roles", "3 positions", "5 awards": the number counts up each time the tab changes
-  const LIVE = { leadership: [3, 'roles'], experience: [3, 'positions'], awards: [5, 'awards'] };
+  const LIVE = { leadership: [5, 'roles'], experience: [5, 'positions'], awards: [15, 'awards'] };
   const setLive = (name, animate) => {
     const [n, label] = LIVE[name], num = $('#bgCount');
     cancelAnimationFrame(liveRaf); clearTimeout(liveTimer);
@@ -169,7 +169,7 @@
     tabsBody.style.transition = ''; tabsBody.style.height = h1 + 'px';
     to.classList.remove('enter'); void to.offsetWidth; to.classList.add('enter');
     clearTimeout(tabTimer);
-    tabTimer = setTimeout(() => { tabsBody.classList.remove('anim'); tabsBody.style.height = ''; to.classList.remove('enter'); }, 560);
+    tabTimer = setTimeout(() => { tabsBody.classList.remove('anim'); tabsBody.style.height = ''; to.classList.remove('enter'); }, 360);
   };
   placePill(); setLive(curTab, false);
   tabBtns.forEach(b => b.addEventListener('click', () => selectTab(b.dataset.tab)));

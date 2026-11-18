@@ -32,12 +32,12 @@ main, .foot { position: relative; z-index: 1; }
 
 /* ---------- Section heads: the rule draws, the title rises letter by letter ---------- */
 .js .sec-head[data-reveal] { opacity: 1; translate: none; position: relative; border-top-color: transparent; }
-.js .sec-head::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 1200ms var(--ease-in-out); }
+.js .sec-head::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-in-out); }
 .js .sec-head.in::before { transform: scaleX(1); }
-.js .sec-head .idx, .js .sec-head p, .js .sec-head .tabs { opacity: 0; transition: opacity 700ms ease 350ms; }
+.js .sec-head .idx, .js .sec-head p, .js .sec-head .tabs { opacity: 0; transition: opacity 350ms ease 180ms; }
 .js .sec-head.in .idx, .js .sec-head.in p, .js .sec-head.in .tabs { opacity: 1; }
 [data-split] { overflow: hidden; padding-bottom: .16em; margin-bottom: -.16em; }
-.js [data-split] .ch { display: inline-block; white-space: pre; translate: 0 118%; transition: translate 900ms var(--ease-out); transition-delay: calc(var(--c) * 28ms + 150ms); }
+.js [data-split] .ch { display: inline-block; white-space: pre; translate: 0 118%; transition: translate 480ms var(--ease-out); transition-delay: calc(var(--c) * 14ms + 80ms); }
 .js .in [data-split] .ch { translate: none; }
 
 /* the UMT sheets fan out once their row has opened */
@@ -65,11 +65,11 @@ main, .foot { position: relative; z-index: 1; }
 .tl li::before { content: ""; position: absolute; left: 144px; top: 30px; width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line-2); transition: background-color 300ms ease, border-color 300ms ease, scale 400ms var(--ease-out); }
 .tl li:first-child::before { top: 8px; }
 .tl li.on::before { background: var(--cobalt); border-color: var(--cobalt); scale: 1.25; }
-.js .tl li > div, .js .tl li > .when { opacity: .4; transition: opacity 450ms ease; }
+.js .tl li > div, .js .tl li > .when { opacity: .4; transition: opacity 250ms ease; }
 .js .tl li.on > div, .js .tl li.on > .when { opacity: 1; }
 
 /* ---------- Awards rows ---------- */
-.js .index li, .js .index li.in { transition: opacity 450ms ease, translate 900ms var(--ease-out); }
+.js .index li, .js .index li.in { transition: opacity 250ms ease, translate 480ms var(--ease-out); }
 
 .reach { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 

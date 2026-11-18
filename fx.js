@@ -157,7 +157,7 @@
      ========================================================== */
   const atmos = $('#atmos'), ctx = atmos.getContext('2d');
   const GLYPHS = ['∑', 'π', '∀', '∃', '×', '÷', '√', '∞', '→', '∈', '{ }', '0', '1', 'λ', '≤', '∂'];
-  const INK = '12,13,16', COBALT = '30,58,240';
+  const INK = '12,13,16', COBALT = '30,58,240', CRIMSON = '166,30,46';
   // pre-drawn soft discs: a cobalt halo and an out-of-focus ink blur
   const sprite = (rgb, stops) => {
     const c = document.createElement('canvas'); c.width = c.height = 64;
@@ -167,6 +167,7 @@
     return c;
   };
   const HALO = sprite(COBALT, [[0, 0.55], [0.25, 0.22], [1, 0]]);
+  const CHALO = sprite(CRIMSON, [[0, 0.55], [0.25, 0.22], [1, 0]]);
   const BOKEH = sprite(INK, [[0, 0.5], [0.55, 0.38], [0.8, 0.08], [1, 0]]);
 
   let W = 0, H = 0, parts = [], links = [], pulses = [], feeders = [], motes = [], time = 0, pulseTimer = 0;
@@ -180,7 +181,7 @@
     parts = Array.from({ length: n }, (_, i) => {
       const z = 0.25 + Math.random() * 0.75;
       return { x: Math.random() * W, y: Math.random() * (H + 120), z, vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.5) * 6,
-        dx: 0, dy: 0, dvx: 0, dvy: 0, sx: 0, sy: 0, blue: i % 5 === 0, far: z < 0.45,
+        dx: 0, dy: 0, dvx: 0, dvy: 0, sx: 0, sy: 0, blue: i % 5 === 0, crimson: i % 5 !== 0 && i % 4 === 1, far: z < 0.45,
         tw: 0.6 + Math.random() * 1.6, ph: Math.random() * TAU,
         g: i % 8 === 3 ? GLYPHS[Math.floor(Math.random() * GLYPHS.length)] : null, rot: Math.random() * 6, spin: (Math.random() - 0.5) * 0.3 };
     });
@@ -269,18 +270,18 @@
       if (p.g) {
         ctx.save(); ctx.translate(p.sx, p.sy); ctx.rotate(p.rot * 0.25);
         ctx.font = `${Math.round(11 + p.z * 15)}px "Geist Mono", ui-monospace, monospace`;
-        ctx.fillStyle = `rgba(${p.blue ? COBALT : INK},${(0.08 + p.z * 0.13) * tw})`;
+        ctx.fillStyle = `rgba(${p.blue ? COBALT : p.crimson ? CRIMSON : INK},${(0.08 + p.z * 0.13) * tw})`;
         ctx.fillText(p.g, 0, 0); ctx.restore();
         continue;
       }
       if (p.far) {                                      // out of focus: a soft disc
         const s = 7 + (0.45 - p.z) * 34;
-        ctx.globalAlpha = (p.blue ? 0.5 : 0.22) * tw; ctx.drawImage(p.blue ? HALO : BOKEH, p.sx - s / 2, p.sy - s / 2, s, s); ctx.globalAlpha = 1;
+        ctx.globalAlpha = (p.blue || p.crimson ? 0.5 : 0.22) * tw; ctx.drawImage(p.blue ? HALO : p.crimson ? CHALO : BOKEH, p.sx - s / 2, p.sy - s / 2, s, s); ctx.globalAlpha = 1;
         continue;
       }
-      const r = 0.7 + p.z * 1.5, col = p.blue ? `rgba(${COBALT},${(0.4 + p.z * 0.5) * tw})` : `rgba(${INK},${(0.12 + p.z * 0.24) * tw})`;
+      const r = 0.7 + p.z * 1.5, col = p.blue ? `rgba(${COBALT},${(0.4 + p.z * 0.5) * tw})` : p.crimson ? `rgba(${CRIMSON},${(0.45 + p.z * 0.5) * tw})` : `rgba(${INK},${(0.12 + p.z * 0.24) * tw})`;
       const len = streak * p.z;
-      if (p.blue) { ctx.globalAlpha = 0.5 * tw; ctx.drawImage(HALO, p.sx - 9, p.sy - 9, 18, 18); ctx.globalAlpha = 1; }
+      if (p.blue || p.crimson) { ctx.globalAlpha = 0.5 * tw; ctx.drawImage(p.crimson ? CHALO : HALO, p.sx - 9, p.sy - 9, 18, 18); ctx.globalAlpha = 1; }
       if (len > 1.5) { ctx.strokeStyle = col; ctx.lineWidth = r * 1.6; ctx.beginPath(); ctx.moveTo(p.sx, p.sy); ctx.lineTo(p.sx, p.sy + dir * len); ctx.stroke(); ctx.lineWidth = 1; }
       else { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p.sx, p.sy, r, 0, TAU); ctx.fill(); }
     }
@@ -344,7 +345,7 @@
       if (r.height === 0) tlT0 = null;                            // the Experience tab is not showing
       else if (r.top < vh && r.bottom > 0) {
         if (tlT0 === null) tlT0 = now;                            // it just opened: the line grows by itself first, then follows the scroll
-        const grow = outCubic(clamp((now - tlT0) / 1500));
+        const grow = outCubic(clamp((now - tlT0) / 900));
         const lr = tlLine.getBoundingClientRect(), p = Math.min(clamp((vh * 0.62 - r.top) / r.height), grow);
         tlFill.style.transform = `scaleY(${p.toFixed(4)})`;
         tlHead.style.transform = `translateY(${(p * lr.height).toFixed(1)}px)`;

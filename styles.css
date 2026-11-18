@@ -72,7 +72,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .links a.on { color: var(--ink); }
 .links a.on::after { transform: scaleX(1); }
 .contact { justify-self: end; position: relative; }
-.progress { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--cobalt); transform: scaleX(0); transform-origin: left; z-index: 1; }
+.progress { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--cobalt), var(--crimson)); transform: scaleX(0); transform-origin: left; z-index: 1; }
 
 .pop-label { font-size: 12px; color: var(--ink-3); }
 .pop-value { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -124,8 +124,6 @@ section[id]:not(.hero) { padding-bottom: clamp(72px, 10vw, 144px); }
 .sec-head p { justify-self: end; text-align: right; font-size: 14px; color: var(--ink-2); }
 
 .live { width: 7px; height: 7px; border-radius: 50%; background: #18A957; box-shadow: 0 0 0 3px rgba(24,169,87,.16); }
-.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
-.tags li { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(12,13,16,.05); color: var(--ink-2); }
 .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 15px; font-weight: 500; padding-bottom: 3px; border-bottom: 1px solid var(--ink); transition: color 200ms ease, border-color 200ms ease; }
 .go svg { transition: transform 240ms var(--ease-out); }
 
@@ -178,8 +176,8 @@ section[id]:not(.hero) { padding-bottom: clamp(72px, 10vw, 144px); }
   box-shadow: 0 1px 2px rgba(12,13,16,.05), 0 16px 28px -18px rgba(12,13,16,.3);
   transform-origin: 50% 120%;
   transform: rotate(calc((var(--n) - 1.5) * 2deg));
-  transition: transform 700ms var(--ease-out);
-  transition-delay: calc(var(--n) * 50ms);
+  transition: transform 420ms var(--ease-out);
+  transition-delay: calc(var(--n) * 30ms);
 }
 .viz-sheets.in .sheet { transform: rotate(calc((var(--n) - 1.5) * 13deg)) translateY(calc(abs(var(--n) - 1.5) * 2%)); }
 .sheet header { display: grid; padding-bottom: 6%; border-bottom: 1.5px solid var(--cobalt); }
@@ -209,6 +207,7 @@ section[id]:not(.hero) { padding-bottom: clamp(72px, 10vw, 144px); }
 
 /* ---------- Leadership ---------- */
 .lead { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+@media (min-width: 901px) { .lead article:nth-child(n+4) { grid-column: span 3; } }   /* three across, then two wider */
 .lead article { grid-column: span 2; padding: 22px; min-height: 168px; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-outer); }
 .role { align-self: flex-start; font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: var(--cobalt-soft); color: var(--cobalt); }
 .lead h3 { margin-top: auto; padding-top: 28px; font-size: 21px; font-weight: 500; letter-spacing: -.03em; line-height: 1.15; }

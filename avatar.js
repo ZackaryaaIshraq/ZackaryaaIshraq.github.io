@@ -46,7 +46,7 @@ if (renderer) {
   const clay = (color, roughness = 0.86, metalness = 0) => new THREE.MeshStandardMaterial({ color, roughness, metalness });
   const M = {
     skin: clay(0xC9946C), skinDeep: clay(0xB87F5A), hair: clay(0x1B1A1E, 0.96), lip: clay(0x6E3A33),
-    cobalt: clay(0x1E3AF0, 0.55), white: clay(0xF7F5F0, 0.8), ink: clay(0x17181C, 0.7), steel: clay(0xA4A6AD, 0.32, 0.7),
+    cobalt: clay(0x1E3AF0, 0.55), crimson: clay(0xB0222F, 0.55), white: clay(0xF7F5F0, 0.8), ink: clay(0x17181C, 0.7), steel: clay(0xA4A6AD, 0.32, 0.7),
   };
   const mesh = (geo, mat, parent, pos, scale, rot) => {
     const m = new THREE.Mesh(geo, mat);
@@ -157,7 +157,7 @@ if (renderer) {
     const g = prop('barbell');
     mesh(new THREE.CylinderGeometry(0.035, 0.035, 3.1, 16), M.steel, g, null, null, [0, 0, Math.PI / 2]);
     for (const s of [-1, 1]) {
-      mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.1, 40), M.cobalt, g, [1.2 * s, 0, 0], null, [0, 0, Math.PI / 2]);
+      mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.1, 40), M.crimson, g, [1.2 * s, 0, 0], null, [0, 0, Math.PI / 2]);
       mesh(new THREE.CylinderGeometry(0.31, 0.31, 0.09, 40), M.ink, g, [1.31 * s, 0, 0], null, [0, 0, Math.PI / 2]);
       mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.07, 20), M.steel, g, [1.4 * s, 0, 0], null, [0, 0, Math.PI / 2]);
     }
@@ -174,8 +174,8 @@ if (renderer) {
   }
   { // map pin
     const g = prop('pin');
-    mesh(sphere, M.cobalt, g, [0, 0.22, 0], [0.27, 0.27, 0.27]);
-    mesh(new THREE.ConeGeometry(0.21, 0.46, 32), M.cobalt, g, [0, -0.13, 0], null, [Math.PI, 0, 0]);
+    mesh(sphere, M.crimson, g, [0, 0.22, 0], [0.27, 0.27, 0.27]);
+    mesh(new THREE.ConeGeometry(0.21, 0.46, 32), M.crimson, g, [0, -0.13, 0], null, [Math.PI, 0, 0]);
     mesh(ball, M.white, g, [0, 0.22, 0.2], [0.1, 0.1, 0.1]);
   }
   { // worksheet

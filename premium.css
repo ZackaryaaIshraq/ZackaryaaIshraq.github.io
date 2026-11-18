@@ -81,20 +81,20 @@ main { overflow-x: clip; }
 /* cards: swing up from below in 3D */
 .lead { perspective: 1400px; }
 .js .lead article[data-reveal] {
-  opacity: 0; translate: 0 64px; rotate: x -28deg; scale: .88; filter: blur(8px); transform-origin: 50% 100%;
-  transition: opacity 800ms ease, translate 1200ms var(--ease-out), rotate 1200ms var(--ease-out), scale 1200ms var(--ease-out), filter 900ms ease, background-color 300ms ease, color 300ms ease, border-color 200ms ease, box-shadow 300ms ease;
-  transition-delay: calc(var(--i, 0) * 95ms); }
+  opacity: 0; translate: 0 40px; rotate: x -18deg; scale: .92; filter: blur(5px); transform-origin: 50% 100%;
+  transition: opacity 400ms ease, translate 600ms var(--ease-out), rotate 600ms var(--ease-out), scale 600ms var(--ease-out), filter 420ms ease, background-color 300ms ease, color 300ms ease, border-color 200ms ease, box-shadow 300ms ease;
+  transition-delay: calc(var(--i, 0) * 50ms); }
 .js .lead article[data-reveal].in { opacity: 1; translate: none; rotate: none; scale: none; filter: none; }
 
 /* rows slide in from the side */
-.js .index li[data-reveal] { translate: -48px 0; filter: none; transition: opacity 600ms ease, translate 1000ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+.js .index li[data-reveal] { translate: -30px 0; filter: none; transition: opacity 300ms ease, translate 500ms var(--ease-out); transition-delay: calc(var(--i, 0) * 35ms); }
 .js .index li[data-reveal].in { translate: none; }
-.js .tl li[data-reveal] { translate: 48px 0; }
+.js .tl li[data-reveal] { translate: 30px 0; }
 .js .tl li[data-reveal].in { translate: none; }
 
 /* ---------- Timeline: a glowing line with a bright head; fx.js sends particles into it ---------- */
 .tl-line { width: 2px; left: 147.5px; border-radius: 2px; }
-.tl-line b { border-radius: 2px; background: linear-gradient(180deg, var(--cobalt), #5A71FF); }
+.tl-line b { border-radius: 2px; background: linear-gradient(180deg, var(--cobalt), #4A5FE8 60%, var(--crimson)); }
 .tl-head { position: absolute; left: 50%; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff; border: 2.5px solid var(--cobalt); box-shadow: 0 0 0 4px rgba(30, 58, 240, .14), 0 0 20px 2px rgba(30, 58, 240, .75); will-change: transform; }
 .tl li.on::before { box-shadow: 0 0 0 4px rgba(30, 58, 240, .14), 0 0 14px rgba(30, 58, 240, .6); }
 
@@ -116,7 +116,6 @@ main { overflow-x: clip; }
 }
 @media (max-width: 640px) {
   .dock { width: 72px; height: 72px; }
-  h1 { font-size: clamp(60px, 19vw, 96px); }
   .tl-line { left: 3.5px; }
   .hero-meta span:first-child { display: inline; }
 }
@@ -174,7 +173,8 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   .hero { min-height: 0; padding-top: 72px; row-gap: 0; }
   .hero-stage { max-width: min(60vw, 28svh, 280px); }
   .hello { margin: 8px 0 12px; padding: 6px 14px 6px 10px; font-size: 13px; }
-  h1 { font-size: clamp(44px, min(18.5vw, 10svh), 92px); }
+  h1 { font-size: clamp(34px, 13.4vw, 64px); white-space: nowrap; }   /* "I build things." on one line */
+  h1 .line { display: inline; }
   .lede { margin-top: 28px; }
   .hero-meta { margin-top: 28px; }
   /* the résumé button waits until you start scrolling, so it never covers the role cards */
@@ -240,7 +240,7 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
 /* ---------- Work: each project is its own card with a clear Details control ---------- */
 .wk-list { display: grid; gap: 12px; }
 .wk { border: 1px solid var(--edge); border-radius: 26px; background: var(--surface); box-shadow: var(--shadow-sm); }
-.js .wk[data-reveal] { transition: opacity 800ms ease, translate 1100ms var(--ease-out), filter 900ms ease, box-shadow 350ms ease, border-color 350ms ease; transition-delay: calc(var(--i, 0) * 80ms); }
+.js .wk[data-reveal] { transition: opacity 400ms ease, translate 550ms var(--ease-out), filter 400ms ease, box-shadow 350ms ease, border-color 350ms ease; transition-delay: calc(var(--i, 0) * 40ms); }
 .wk.open { border-color: rgba(30, 58, 240, .22); box-shadow: var(--shadow-md); }
 .wk-h { font: inherit; letter-spacing: inherit; }
 .wk-head { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto auto; align-items: center; gap: 0 20px; width: 100%; padding: 22px 22px 22px 26px; border-radius: 26px; text-align: left; }
@@ -261,14 +261,13 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
 .wk.open .wk-chev::before { border-color: var(--paper); animation: none; }
 .still .wk-chev::before { animation-play-state: paused; }
 
-.wk-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 520ms var(--ease-drawer), visibility 0s 520ms; }
-.wk.open .wk-body { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 520ms var(--ease-drawer), visibility 0s; }
+.wk-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 340ms var(--ease-drawer), visibility 0s 340ms; }
+.wk.open .wk-body { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 340ms var(--ease-drawer), visibility 0s; }
 .wk-inner { min-height: 0; overflow: hidden; }
 .wk-content { margin: 0 26px; padding: 26px 0 clamp(28px, 3.4vw, 40px) 64px; border-top: 1px solid var(--line); opacity: 0; translate: 0 16px; filter: blur(6px); transition: opacity 180ms ease, translate 260ms var(--ease-out), filter 180ms ease; }
-.wk.open .wk-content { opacity: 1; translate: none; filter: none; transition: opacity 500ms ease 140ms, translate 700ms var(--ease-out) 140ms, filter 500ms ease 140ms; }
+.wk.open .wk-content { opacity: 1; translate: none; filter: none; transition: opacity 300ms ease 90ms, translate 420ms var(--ease-out) 90ms, filter 300ms ease 90ms; }
 .wk-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
 .wk-copy > p { max-width: 36em; color: var(--ink-2); }
-.wk-copy .tags { margin-top: 20px; }
 .wk-copy p a { color: var(--ink); border-bottom: 1px solid var(--line-2); transition: border-color 200ms ease, color 200ms ease; }
 
 /* ---------- Background: dark glass tabs, a live count, and graphite cards ---------- */
@@ -281,9 +280,9 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
 .bg-live { grid-column: 2 / -1; margin-top: 12px; font-size: 15px; color: var(--ink-2); }
 .bg-live b { display: inline-block; min-width: 1.1ch; font-size: 22px; font-weight: 500; letter-spacing: -.03em; color: var(--cobalt); }
 .tabs-body { position: relative; }
-.tabs-body.anim { overflow: hidden; transition: height 480ms var(--ease-drawer); }
-.tab-panel.enter { animation: tab-in 560ms var(--ease-out) both; }
-@keyframes tab-in { from { opacity: 0; transform: translateY(16px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+.tabs-body.anim { overflow: hidden; transition: height 320ms var(--ease-drawer); }
+.tab-panel.enter { animation: tab-in 340ms var(--ease-out) both; }
+@keyframes tab-in { from { opacity: 0; transform: translateY(12px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
 
 /* Dark glass, type B: graphite with a silver glow, flatter and quieter than the role cards */
 .lead article { position: relative; isolation: isolate; overflow: hidden; border: 0; color: #fff;
@@ -362,3 +361,135 @@ body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-event
   .wk-content, .wk.open .wk-content { translate: none; filter: none; }
   .tab-panel.enter { animation: none; }
 }
+
+
+/* ==========================================================
+   Round 8: crimson accent, wine-dark glass pills, faster entrances, stronger hero buttons
+   ========================================================== */
+/* Accent: deep crimson, a sunset red. --crimson is for shapes and glows on light surfaces, --crimson-ink for text on paper,
+   --crimson-lit for the same colour on dark glass, where plain crimson would disappear. */
+:root { --crimson: #A61E2E; --crimson-ink: #8F1726; --crimson-lit: #FF6B7A; --crimson-soft: rgba(166, 30, 46, .14); }
+.hello::before { background: var(--crimson); box-shadow: 0 0 0 3px var(--crimson-soft); }
+.role-top .mono { color: var(--crimson-lit); }
+.sec-head-xl h2 em { color: var(--crimson); }
+.bg-live b { color: var(--crimson-ink); }
+.res.top { color: var(--crimson-ink); font-weight: 500; }
+.res.top::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--crimson); box-shadow: 0 0 0 3px var(--crimson-soft); vertical-align: 1px; }
+.wk-n { transition: color 250ms ease; }
+.wk.open .wk-n { color: var(--crimson-ink); }
+.resume svg { color: var(--crimson-lit); }
+
+/* Dark glass, type C: wine-black with a crimson glow. The small status pills on the Work cards */
+.wk-meta { position: relative; isolation: isolate; padding: 6px 13px; color: rgba(255, 255, 255, .92);
+  background: radial-gradient(130% 230% at 100% 100%, rgba(200, 40, 60, .38), transparent 60%), linear-gradient(160deg, rgba(52, 20, 26, .93), rgba(17, 9, 11, .9));
+  -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: 0 1px 0 rgba(255, 170, 180, .3) inset, 0 8px 16px -8px rgba(60, 10, 18, .6); }
+.wk-meta::before { content: ""; position: absolute; inset: 0; z-index: 1; padding: 1px; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(145deg, rgba(255, 170, 180, .65), rgba(255, 255, 255, .06) 45%, rgba(220, 60, 80, .55));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.wk-meta .live { box-shadow: 0 0 0 3px rgba(24, 169, 87, .28), 0 0 10px rgba(24, 169, 87, .6); }
+
+/* Hero buttons: deeper shadows */
+.hero-cta .btn-cobalt { box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -1px 0 rgba(8, 20, 120, .5) inset, 0 3px 6px rgba(15, 31, 168, .4), 0 14px 26px -6px rgba(30, 58, 240, .62), 0 34px 54px -16px rgba(30, 58, 240, .66); }
+.hero-cta .btn-line { box-shadow: 0 1px 0 #fff inset, 0 3px 6px rgba(12, 13, 16, .12), 0 14px 26px -8px rgba(12, 13, 16, .28), 0 32px 48px -20px rgba(12, 13, 16, .34); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta .btn-cobalt:hover { box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 -1px 0 rgba(8, 20, 120, .5) inset, 0 4px 8px rgba(15, 31, 168, .45), 0 20px 34px -6px rgba(30, 58, 240, .7), 0 44px 66px -16px rgba(30, 58, 240, .72); }
+  .hero-cta .btn-line:hover { box-shadow: 0 1px 0 #fff inset, 0 4px 8px rgba(12, 13, 16, .14), 0 20px 34px -8px rgba(12, 13, 16, .34), 0 42px 60px -20px rgba(12, 13, 16, .4); }
+}
+
+/* Entrances after the hero run twice as fast: shorter travel, less blur, tighter staggers */
+.js :where(section[id]:not(.hero)) [data-reveal] { translate: 0 22px; filter: blur(5px); transition: opacity 400ms ease, translate 550ms var(--ease-out), filter 400ms ease; transition-delay: calc(var(--i, 0) * 40ms); }
+
+/* Tablet: the tab switch drops under the large title instead of crowding it */
+@media (min-width: 641px) and (max-width: 900px) {
+  .sec-head .tabs { grid-column: 1 / -1; justify-self: start; margin-top: 14px; }
+}
+
+
+/* ==========================================================
+   Round 9: the Work section in two tiers, each project with its own tone and line-art
+   ========================================================== */
+/* a faint crimson wash low-left in the hero, so cobalt (right) and crimson (left) meet like a sunset */
+.hero::after { content: ""; position: absolute; left: -10%; bottom: -4%; width: 48%; aspect-ratio: 1; border-radius: 50%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(166, 30, 46, .1), rgba(166, 30, 46, .035) 55%, transparent); }
+
+.wk-eyebrow { display: flex; align-items: center; gap: 14px; margin: 34px 0 14px; font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.wk-eyebrow:first-of-type { margin-top: 0; }
+.wk-eyebrow i { flex: 1; height: 1px; background: var(--line); }
+.wk-eyebrow .mono { font-size: 12px; color: var(--ink-3); }
+
+/* each card carries a tone (an r, g, b triple) that drives its bar, wash, chips and line-art */
+.wk { position: relative; --tone: 30, 58, 240; }
+.wk::before { content: ""; position: absolute; left: 0; top: 24px; bottom: 24px; width: 4px; border-radius: 0 4px 4px 0; background: linear-gradient(180deg, rgb(var(--tone)), rgba(var(--tone), .3)); transition: top 300ms var(--ease-out), bottom 300ms var(--ease-out); }
+.wk.open::before { top: 14px; bottom: 14px; }
+.wk.open { border-color: rgba(var(--tone), .28); }
+
+.wk-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.wk-chips span { padding: 4px 10px; border-radius: 999px; background: rgba(var(--tone), .08); font-size: 12px; color: var(--ink-2); }
+
+.wk-art { position: relative; display: grid; place-items: center; overflow: hidden; color: rgb(var(--tone)); border-radius: 18px; border: 1px solid rgba(var(--tone), .16);
+  background-color: rgba(var(--tone), .05); background-image: radial-gradient(rgba(var(--tone), .26) 1px, transparent 1px); background-size: 14px 14px; background-position: 7px 7px;
+  transition: opacity 300ms ease, scale 400ms var(--ease-out); }
+.wk-art svg { position: absolute; inset: 9%; width: 82%; height: 82%; overflow: visible; }
+
+/* tier one: feature cards for the two products */
+.wk-feature { background: radial-gradient(90% 150% at 100% 0%, rgba(var(--tone), .11), transparent 62%), var(--surface); box-shadow: var(--shadow-md); }
+.wk-feature .wk-head { grid-template-columns: 44px minmax(0, 1fr) minmax(200px, 32%); grid-template-areas: "n title art" "n chips art" "n meta more"; gap: 12px 24px; align-items: start; padding: 28px 26px 24px 26px; }
+.wk-feature .wk-n { grid-area: n; }
+.wk-feature .wk-title { grid-area: title; }
+.wk-feature .wk-chips { grid-area: chips; }
+.wk-feature .wk-art { grid-area: art; min-height: 128px; }
+.wk-feature .wk-meta { grid-area: meta; justify-self: start; align-self: center; }
+.wk-feature .wk-more { grid-area: more; justify-self: end; align-self: center; }
+.wk-feature .wk-name { font-size: clamp(32px, 3.8vw, 52px); }
+.wk-feature.open .wk-art { opacity: 0; scale: .94; }
+
+/* tier two: slimmer rows with a small icon tile */
+.wk-slim { background: linear-gradient(90deg, rgba(var(--tone), .06), transparent 30%), var(--surface); }
+.wk-slim .wk-head { grid-template-columns: 44px 68px minmax(0, 1fr) auto auto; padding: 18px 22px 18px 26px; }
+.wk-slim .wk-name { font-size: clamp(24px, 2.4vw, 32px); }
+.wk-slim .wk-art { width: 68px; height: 50px; align-self: center; border-radius: 13px; background-size: 10px 10px; background-position: 5px 5px; }
+.wk-slim .wk-art svg { inset: 7%; width: 86%; height: 86%; }
+
+/* line-art: a little life on hover */
+.art-t { font-family: var(--mono); font-size: 22px; letter-spacing: -.04em; fill: currentColor; stroke: none; }
+.art-ladder rect { fill: transparent; transition: fill 250ms ease; }
+.art-ladder rect.on { fill: currentColor; }
+.art-fan g { transform-box: view-box; transform-origin: 80px 90px; transition: transform 500ms var(--ease-out); }
+.art-fan .f1 { transform: rotate(-24deg); }
+.art-fan .f2 { transform: rotate(-8deg); }
+.art-fan .f3 { transform: rotate(8deg); }
+.art-fan .f4 { transform: rotate(24deg); }
+.art-bars rect { transform-box: fill-box; transform-origin: 0 50%; transition: transform 500ms var(--ease-out); }
+.art-bars .on { fill: currentColor; fill-opacity: .85; }
+.art-web .arrow { transition: translate 400ms var(--ease-out); }
+.art-route { stroke-dasharray: 5 6; }
+@keyframes art-dash { to { stroke-dashoffset: -22; } }
+.still .art-route { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) {
+  .wk-head:hover .art-ladder rect:nth-child(-n+9) { fill: currentColor; }
+  .wk-head:hover .art-fan .f1 { transform: rotate(-34deg); }
+  .wk-head:hover .art-fan .f2 { transform: rotate(-13deg); }
+  .wk-head:hover .art-fan .f3 { transform: rotate(13deg); }
+  .wk-head:hover .art-fan .f4 { transform: rotate(34deg); }
+  .wk-head:hover .art-bars rect { transform: scaleX(1.1); }
+  .wk-head:hover .art-bars rect:nth-child(n+3) { transform: scaleX(1.28); }
+  .wk-head:hover .art-web .arrow { translate: 5px 0; }
+  .wk-head:hover .art-route { animation: art-dash 1s linear infinite; }
+  .wk-slim:not(.open):hover { background-color: transparent; }
+}
+
+@media (max-width: 820px) {
+  .wk-eyebrow { margin-top: 26px; }
+  .wk-feature .wk-head { grid-template-columns: 30px minmax(0, 1fr) 40px; grid-template-areas: "art art art" "n title more" ". chips chips" ". meta meta"; gap: 10px 12px; padding: 16px 16px 18px 18px; }
+  .wk-feature .wk-art { min-height: 0; height: 84px; }
+  .wk-feature .wk-more { align-self: start; }
+  .wk-feature .wk-more-t { display: none; }
+  .wk-slim .wk-head { grid-template-columns: 30px minmax(0, 1fr) auto; padding: 16px 16px 16px 18px; }
+  .wk-slim .wk-art { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-route { animation: none !important; }
+  .wk::before { transition: none; }
+}
+@media (max-width: 900px) { .hero::after { left: -35%; bottom: 10%; width: 100%; } }
